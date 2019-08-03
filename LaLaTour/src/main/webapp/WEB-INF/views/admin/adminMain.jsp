@@ -16,7 +16,7 @@
 	<button type="button" id="_admincreateBtn" class="blue_btn2">관리자계정 생성</button>
 </div>
 <hr>
-
+	<span></span>
 <!-- 상단 검색창 영역 //////////////////////////////////////////////// -->
 <div class="divsearch">
 	<!-- 검색창 ////////////////////// -->
