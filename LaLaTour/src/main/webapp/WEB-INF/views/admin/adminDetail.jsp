@@ -13,7 +13,7 @@
 <!-- local CSS -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/admin.css">
 
-<style type="text/css">
+<style type="text/css"> 
 
 </style>
 
