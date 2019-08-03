@@ -6,7 +6,7 @@
 <fmt:requestEncoding value="utf-8"/>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/product.css">
-
+<!-- 수정을 해보겠습니다. -->
 
 <div id="finalWrap" style="width: 1250px; margin: 50px 0px 0px 50px;">
 <div id="finalWrapIn" style="width: 1250px;">
