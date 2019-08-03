@@ -1,0 +1,498 @@
+@charset "UTF-8";
+
+.main_container{
+	background-color: #fbfbfb;
+	width:100%;
+	margin:auto;
+}
+.sub-container{
+	padding: 30px 50px 50px 50px;
+	position:relative;
+	width:100%;
+	max-width:1250px;
+	margin:auto;
+	margin-bottom:20px;
+	z-index:1;
+	background-color: #ffffff;
+	border-radius: 15px;
+}
+.top_section{
+	width:100%;
+	margin:auto;
+}
+.screen #pictureDetail{
+	width:526px;
+	height:300px;
+}
+
+#image-gallery{
+	list-style: none outside none;
+	padding-left: 0;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+/* 데이트피커 */
+#ui-datepicker-div{
+ top:-999px; 
+ border: 0;
+ font-size: 14px;
+}
+.ui-datepicker-header{
+  font-size: 13px;
+}
+.ui-datepicker-calendar{
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+/* 왼쪽 슬라이드 */
+.screen{
+	max-width:1250px !important;
+/* 	border-radius: 10px; */
+/* 	box-shadow: 20px 10px 20px 10px rgba(102, 186, 255, 0.4); */
+/* 	border-bottom:1px solid #EFECCA;  */
+/*     box-shadow:2px 2px 3px inset; */
+/*     color:#a7a37e; */
+/* 	float:left; */
+}
+
+.main {
+  font-family:Arial;
+  width:500px !important;
+/*   display:block; */
+  margin:0 auto;
+  
+}
+h3 {
+    background: #fff;
+    color: #3498db;
+    font-size: 36px;
+    line-height: 100px;
+    margin: 10px;
+    padding: 2%;
+    position: relative;
+    text-align: center;
+}
+.action{
+  display:block;
+  margin:100px auto;
+  width:100%;
+  text-align:center;
+}
+.action a {
+  display:inline-block;
+  padding:5px 10px; 
+  background:#f30;
+  color:#fff;
+  text-decoration:none;
+}
+.action a:hover{
+  background:#000;
+}
+.pClear{
+	clear: both;
+}
+.screen_left{
+	float :left;
+	height:510px;
+}
+
+/* 오른쪽 결제창 */
+.reserveInfo{
+	float:right;
+	width:600px;
+	padding: 30px 50px 50px 50px;
+}
+.black_bt{
+	border-bottom:2px solid black;
+	height:115px;
+	width:100%;
+	text-align: left;
+	font-weight: bold;
+	margin: 0px;
+}
+.block_left{
+	border-left: 1px solid black;
+}
+.h_title{
+	font-size: 30px;
+	width:100%;
+	padding:0px 0px 10px 10px;
+}
+.starArea{
+	width:100%;
+	padding-left:10px;
+	margin-top:10px;
+	margin-bottom:8px;
+	font-size: 20px;
+}
+.star_text{
+	font-size: 25px;
+	vertical-align: bottom;
+	font-weight: normal !important;
+}
+.rightExplain{
+	border-bottom:1px gray solid;
+	width: 100%;
+	padding: 10px 0px 10px 0px;
+	marign:0 5px 0 5px;
+}
+.rightExplain > label{
+	font-weight: bold;
+	width : 150px;
+}
+/* 가운데 캘린더 */
+.cal_section{
+	padding:20px;
+	background-color: #2c4162;
+	border-radius: 5px;
+	color:white;
+	width:600px;
+	margin:auto;
+	height:250px;
+	float:left;
+}
+.cal_section h4{
+	margin-bottom:20px;
+}
+.cal_price{
+	margin: 20px 0px 20px 0px;
+	border-bottom:1px white solid;
+	width:50%;
+}
+#s_cal_img{
+	margin-left:40px;
+}
+#totalPrice{
+	font-size:17px;
+}
+.reserve_btn{
+	border:2px solid white;
+	color:white;
+	background: none;
+	width:150px;
+	border-radius: 70px;
+}
+.re_div{
+	float :right;
+}
+.re_main{
+	width:100%;
+	padding:3px;
+}
+#re_info{
+	border-top:3px solid gray;
+	font-size: 13px;
+	resize: none;
+	readonly:readonly;
+}
+#re_info_txt{
+	padding-left:677px;
+	font-weight: bold;
+	font-size: 12px;
+}
+.temp input{
+	border-radius: 5px;
+}
+
+.slick-slide{
+	margin-bottom:20px;
+}
+/* 칼린더 왼쪽 */
+.cal_div{
+	float:left;
+}
+.calendar_tb{
+	border-radius: 50px !important;
+	border-collapse: collapse;
+	font-family: 'Montaga', serif;
+}
+#ym_section{
+	border-bottom:6px solid #3378AF;
+	background-color: #388BCC;
+	color:white !important;
+}
+.cal_point{
+	color:white;
+	font-weight: bold;
+}
+.cal_point:link{text-decoration: none;}
+.cal_point:visited{text-decoration: none;}
+.cal_point:active{text-decoration: none;}
+.cal_point:hover{text-decoration: none;}
+#cal_week{
+	background-color: #EFEFEF;
+	font-weight: bold;
+}
+.cal_day{
+	text-align:center;
+	font-weight: bold;
+	text-align: left;
+	height:95px;
+	valign:top;
+	border-bottom:1px solid #EFEFEF;
+}
+.cal_right{
+	float:right;
+	width:340px;
+	background-color: #F8FFFF;
+	border-radius: 10px;
+}
+.cal_right_top{
+	background-color: #388BCC;
+	color:white;
+	height:50px;
+	text-align: center;
+	font-size: 25px;
+	border-radius: 10px;
+	border-bottom: 5px solid white;
+}
+.cal_right_title{
+	font-weight: bold;
+	padding-left:10px;
+	margin: 15px 0 8px 0;
+	font-size: 16px;
+}
+.cal_right_content{
+	padding-left:16px;
+	padding-bottom:5px;
+	font-size: 13px;
+/* 	border-bottom:1px solid gray; */
+}
+
+/* 호텔 내용부분 */
+.bottom_content{
+	width:100%;
+	margin: 60px 0 60px 0;
+}
+#info_main{
+	font-weight: bold;
+	font-size:32px;
+	border-bottom: 1px solid gray;
+	width:100%;
+	margin-bottom:30px;
+	padding:0 0 10px 10px;
+}
+#info_content{
+	padding-left:15px;
+}
+/* 지도부분 */
+.map_txt_area{
+	border-bottom : 1px solid gray;
+	width:100%;
+	margin-bottom:30px;
+}
+.map_txt{
+	font-weight: bold;
+	font-size: 32px;
+	padding: 0 0 10px 10px;
+	margin:0px;
+}
+.map_area{
+	width:800px;
+	margin:auto;
+}
+.map_area > iframe{
+	width:800px !important;
+}
+/* 버튼 부분 */
+.btn_div{
+	width: 100%;
+}
+.btn_div input{
+	margin:0 20px 0 20px;
+}
+.btn_in{
+	float: right;
+}
+#mapurl{
+	width:800px;
+}
+/* 수정버튼 */
+.snip1535 {
+  background-color: #3378AF;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'BenchNine', Arial, sans-serif;
+  font-size: 1em;
+  font-size: 14px;
+  padding:15px 30px;
+  line-height: 1em;
+  margin: 70px 30px 0px 0px;
+  outline: none;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.snip1535:before,
+.snip1535:after {
+  border-color: transparent;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  border-style: solid;
+  border-width: 0;
+  content: "";
+  height: 24px;
+  position: absolute;
+  width: 24px;
+}
+.snip1535:before {
+  border-color: #3378AF;
+  border-right-width: 2px;
+  border-top-width: 2px;
+  right: -5px;
+  top: -5px;
+}
+.snip1535:after {
+  border-bottom-width: 2px;
+  border-color: #3378AF;
+  border-left-width: 2px;
+  bottom: -5px;
+  left: -5px;
+}
+.snip1535:hover,
+.snip1535.hover {
+  background-color: #3378AF;
+}
+.snip1535:hover:before,
+.snip1535.hover:before,
+.snip1535:hover:after,
+.snip1535.hover:after {
+  height: 100%;
+  width: 100%;
+}
+
+.reply_container{
+	border-top:1px solid #eeeeee;
+}
+
+.reply_category{
+	margin-top : 20px;
+	padding-bottom:20px;
+	padding-left:30px;
+	font-size:1.7em;
+}
+
+
+
+
+/* 후기 */
+
+.bubble 
+{
+position: relative;
+width: 100%;
+height: 120px;
+padding: 30px;
+background: #FFFFFF;
+-webkit-border-radius: 42px;
+-moz-border-radius: 42px;
+border-radius: 42px;
+border: #3378AF solid 1px;
+}
+
+.bubble:after 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 0 16px 22px;
+border-color: #FFFFFF transparent;
+display: block;
+width: 0;
+z-index: 1;
+top: -22px;
+left: 44px;
+}
+
+.bubble:before 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 0 16px 22px;
+border-color: #3378AF transparent;
+display: block;
+width: 0;
+z-index: 0;
+top: -23px;
+left: 44px;
+}
+
+.replyTb tr{
+	margin: 10px 0px;
+}
+#review_star_result{
+	width:150px;
+	height:27px;
+	vertical-align: text-bottom;
+	padding-left:5px;
+}
+#reivew_star_txt{
+	color:#00aef0;
+	font-size:20px;
+	padding-left:10px;
+}
+#review_name{
+	padding-left:10px;
+	font-size:20px;
+	margin-right:5px;
+}
+#review_wdate{
+	color:#969696;
+	font-size: 15px;
+}
+.reply_container_in{
+	margin:auto;
+	width:1000px;
+}
+
+/* 리뷰 작성 */
+
+.review_write{
+	border-top:1px solid #eeeeee;
+	padding-top:20px;
+}
+#review_write_txt{
+	font-size: 1.7em;
+	padding-left:30px;
+	margin-bottom:20px;
+}
+.review_write_area{
+	border-radius: 15px;
+	border:1px solid #3378AF;
+	resize:none;
+	width:100%;
+	outline: none;
+	padding:20px;
+}
+.review_write_submit{
+	padding-left:30px;
+}
+.inputReplyTb{
+	margin:20px 0px;
+}
+.review_coment:link {  text-decoration: none; color:black;}
+.review_coment:visited { text-decoration: none; color:black;} 
+.review_coment:hover {  text-decoration: none; color:black;}
+.review_coment{
+	color:black;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 100px;
+	margin:0px 5px;
+}
+#admin_coment{
+	padding:20px 0 0 20px;
+	font-size:1.1em;
+}
+.info_room_txt{
+	width:470px;
+}
+.info_room_div{
+	float:right;
+}
+

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Bbs">
+
+
+<!-- 리스트랑 페이징 -->
+ <select id="totalCount" resultType="java.lang.Integer">
+  SELECT COUNT(SEQ)
+  FROM BBS
+  </select>
+  
+  <select id="bbsList" parameterType="lala.com.a.util.pagingBean" resultType="lala.com.a.model.BbsDto">
+
+   SELECT * FROM 
+				(SELECT * FROM 
+						(SELECT B.SEQ AS SEQ, B.ID AS ID, B.TITLE AS TITLE, B.CONTENT AS CONTENT,
+								B.WDATE AS WDATE, B.READCOUNT AS READCOUNT, B.DEL AS DEL, B.TNAME AS TNAME, M.AUTH AS AUTH
+						FROM BBS B, MEMBER M
+						WHERE B.ID = M.ID AND B.DEL=0
+						<if test="choice=='title'">
+						AND TITLE LIKE '%'||#{findWord}||'%'
+						</if>
+						<if test="choice=='content'">
+						AND CONTENT LIKE '%'||#{findWord}||'%'
+						</if>
+						<if test="choice=='id'">
+						AND ID =#{findWord}
+						</if>
+				
+				ORDER BY M.AUTH ASC, B.SEQ ASC)	
+				<![CDATA[
+				 WHERE ROWNUM <= #{startNum}
+				 ]]>
+					ORDER BY AUTH DESC, SEQ DESC) 
+					<![CDATA[
+					WHERE ROWNUM <= #{countPerPage}
+					]]>
+  
+  </select>
+
+<!-- 글쓰기 -->
+<insert id="bbsWrite" parameterType="lala.com.a.model.BbsDto">
+INSERT INTO BBS(SEQ,ID,TITLE,CONTENT,WDATE,READCOUNT,DEL,TNAME)
+VALUES(SEQ_BBS.NEXTVAL,#{id},#{title},#{content},SYSDATE,0,0,'BBS')
+</insert>
+
+<!-- 글 디테일가져오기 -->
+<select id="bbsDetail" parameterType="java.lang.Integer" resultType="lala.com.a.model.BbsDto">
+SELECT * FROM BBS
+WHERE SEQ=#{seq}
+</select>
+
+<!-- 조회수증가 -->
+<update id="bbsReadcount" parameterType="java.lang.Integer">
+UPDATE BBS SET READCOUNT = READCOUNT+1 
+WHERE SEQ=#{seq}
+</update>
+
+<update id="bbsDelete" parameterType="java.lang.Integer">
+UPDATE BBS SET DEL = 1 
+WHERE SEQ=#{seq}
+</update>
+
+<!-- 글수정 -->
+<update id="bbsUpdate" parameterType="lala.com.a.model.BbsDto">
+UPDATE BBS SET TITLE=#{title} ,CONTENT=#{content}
+WHERE SEQ=#{seq}
+</update>
+
+<!-- 댓글달기 -->
+<insert id="bbsReply" parameterType="lala.com.a.model.ReplyDto">
+ INSERT INTO REPLY(SEQ,PSEQ,TNAME,ID,CONTENT, REF,STEP,WDATE,DEL,LOCK_)
+ VALUES(SEQ_REP.NEXTVAL,#{pseq},'BBS',#{id},#{content},SEQ_REP.CURRVAL, 0,SYSDATE,0,#{lock_})
+</insert>
+
+<!-- BBS테이블의 댓글총갯수 -->
+<select id="replyCount"  parameterType="java.lang.Integer" resultType="java.lang.Integer">
+SELECT COUNT(SEQ)
+FROM REPLY WHERE TNAME='BBS' AND PSEQ=#{pseq}
+</select>
+
+
+<!-- 댓글꺼내오기 -->
+<select id="bbsReplyDetail"  parameterType="java.lang.Integer" resultType="lala.com.a.model.ReplyDto">
+
+  SELECT * FROM 
+				(SELECT * FROM 
+						(SELECT * FROM 
+							REPLY
+							
+						WHERE TNAME = 'BBS'
+						AND PSEQ=#{pseq}					
+				ORDER BY REF ASC, STEP DESC)	
+				<![CDATA[
+				 WHERE ROWNUM <= #{startNum}
+				 ]]>
+					ORDER BY REF DESC, STEP ASC) 
+					<![CDATA[
+					WHERE ROWNUM <= #{countPerPage}
+					]]>
+					ORDER BY REF DESC, STEP ASC
+
+</select>
+
+<!-- 댓글수정 저장 -->
+<update id="updateReply"  parameterType="lala.com.a.model.ReplyDto">
+UPDATE REPLY SET CONTENT=#{content}, DEL=2
+WHERE SEQ=#{seq} 
+</update>
+
+<!-- 댓글삭제 -->
+<update id="deleteReply" parameterType="java.lang.Integer">
+UPDATE REPLY SET DEL=1
+WHERE SEQ=#{seq} 
+</update>
+
+
+
+<!-- 대댓글달기  -->
+<insert id="bbsAnswer" parameterType="lala.com.a.model.ReplyDto">
+INSERT INTO REPLY(SEQ,PSEQ,TNAME,ID,CONTENT,REF,STEP,WDATE,DEL,LOCK_)
+VALUES(SEQ_REP.NEXTVAL,#{pseq},'BBS',#{id},#{content},#{ref},(SELECT MAX(STEP)+1 FROM REPLY WHERE REF=#{ref}),SYSDATE,0,#{lock_})
+</insert>
+ 
+<!-- 내가 쓴 글 토탈카운트 -->
+<select id="MyWriteBbsCnt" parameterType="lala.com.a.hotel.pagingBean" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(SEQ),0)
+	FROM BBS
+	WHERE ID=#{id}
+</select>
+<!-- 내가 쓴 글 불러오기 -->
+<select id="MyWriteBbs" parameterType="lala.com.a.hotel.pagingBean" resultType="lala.com.a.model.BbsDto">
+SELECT * FROM	
+	(SELECT * FROM
+		(SELECT * FROM BBS
+		WHERE DEL=0	AND ID=#{id}		
+		ORDER BY SEQ ASC)
+	<![CDATA[
+	WHERE ROWNUM <= #{startNum} 
+	]]>
+	ORDER BY SEQ DESC)
+<![CDATA[
+WHERE ROWNUM <= #{countPerPage}
+]]>
+
+</select>
+ 
+
+
+</mapper>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

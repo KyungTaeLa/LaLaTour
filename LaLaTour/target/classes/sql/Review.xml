@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  
+<mapper namespace="Review">
+
+<select id="reviewList123" parameterType="lala.com.a.util.pagingBean" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(R.SEQ),0)
+		FROM REVIEW R , FESTIVAL F
+	WHERE R.PSEQ = F.SEQ AND R.DEL=0
+		<if test="choice != ''">
+			AND F.PLACE LIKE '%'||#{choice}||'%' AND R.TITLE LIKE '%'||#{findWord}||'%'
+		</if>
+	
+</select>
+
+<select id="ReviewList" parameterType="lala.com.a.util.pagingBean" resultType="lala.com.a.model.ReviewDto">
+	SELECT * FROM	
+		(SELECT * FROM
+			(SELECT R.SEQ AS SEQ,R.ID AS ID,R.TITLE AS TITLE,R.DEL AS DEL,R.PSEQ AS PSEQ,R.SCORE AS SCORE,
+				F.TITLE AS FTITLE,F.PLACE AS PLACE,F.EDATE AS EDATE,F.SDATE AS SDATE,
+				R.WDATE AS WDATE 
+				FROM REVIEW R , FESTIVAL F
+				WHERE R.PSEQ = F.SEQ AND R.DEL=0 AND (F.DEL=0 OR F.DEL=2)
+				<if test="choice != ''">
+					AND F.PLACE LIKE '%'||#{choice}||'%' AND R.TITLE LIKE '%'||#{findWord}||'%'
+				</if>
+					ORDER BY SEQ ASC)
+				<![CDATA[
+				WHERE ROWNUM <= #{startNum} 
+				]]>
+				ORDER BY SEQ DESC)
+			<![CDATA[
+			WHERE ROWNUM <= #{countPerPage}
+			]]>
+</select>
+
+
+<!-- //축제 보러 가기 -->
+
+<select id="SearchreviewListToTalCnt" parameterType="lala.com.a.util.pagingBean" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(R.SEQ),0)
+		FROM REVIEW R , FESTIVAL F
+	WHERE R.PSEQ = F.SEQ AND R.DEL=0
+		<if test="choice != ''">
+			AND F.PLACE LIKE '%'||#{choice}||'%' AND R.TITLE LIKE '%'||#{findWord}||'%'
+		</if>
+	
+</select>
+
+<select id="SearchreviewList" parameterType="lala.com.a.util.pagingBean" resultType="lala.com.a.model.ReviewDto">
+	SELECT * FROM	
+		(SELECT * FROM
+			(SELECT R.SEQ AS SEQ,R.ID AS ID,R.TITLE AS TITLE,R.DEL AS DEL,R.PSEQ AS PSEQ,R.SCORE AS SCORE,
+				F.TITLE AS FTITLE,F.PLACE AS PLACE,F.EDATE AS EDATE,F.SDATE AS SDATE,
+				R.WDATE AS WDATE 
+				FROM REVIEW R , FESTIVAL F
+				WHERE R.PSEQ = F.SEQ AND R.DEL=0			
+				<if test="choice != ''">
+					AND F.PLACE LIKE '%'||#{choice}||'%' AND F.TITLE LIKE '%'||#{findWord}||'%'
+				</if>
+					ORDER BY SEQ ASC)
+				<![CDATA[
+				WHERE ROWNUM <= #{startNum} 
+				]]>
+				ORDER BY SEQ DESC)
+			<![CDATA[
+			WHERE ROWNUM <= #{countPerPage}
+			]]>
+</select>
+
+
+<!-- reviewUpdate를 거쳐서 올때 가져갈 list -->
+<select id="ReviewDetailList" parameterType="java.lang.Integer" resultType="lala.com.a.model.ReviewDto">
+	SELECT R.SEQ AS SEQ,R.ID AS ID,R.TITLE AS TITLE,R.DEL AS DEL,R.PSEQ AS PSEQ,R.SCORE AS SCORE,
+			F.TITLE AS FTITLE,F.PLACE AS PLACE,F.EDATE AS EDATE,F.SDATE AS SDATE,
+			R.WDATE AS WDATE 
+	FROM REVIEW R , FESTIVAL F
+	WHERE R.PSEQ = F.SEQ AND R.DEL=0 AND R.SEQ=#{seq}
+</select>
+
+<select id="ftPlaceTitle" resultType="lala.com.a.model.FestivalDto">
+	SELECT * FROM REVIEW
+</select>
+
+<select id="seachFestival" parameterType="java.lang.Integer" resultType="lala.com.a.model.FestivalDto">
+	SELECT * FROM FESTIVAL
+	WHERE SEQ=#{seq}
+</select>
+
+<insert id="reviewInsert" parameterType="lala.com.a.model.ReviewDto">
+	INSERT INTO REVIEW
+	(SEQ , ID , TITLE , CONTENT , DEL , PSEQ , SCORE , WDATE)
+	VALUES(SEQ_REV.NEXTVAL,#{id},#{title},'.',0,#{pseq},#{score},SYSDATE)
+</insert>
+
+<update id="reviewDel" parameterType="java.lang.Integer">
+	UPDATE REVIEW
+	SET DEL=1
+	WHERE SEQ=#{seq}
+</update>
+
+<select id="scoreCnt" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+	SELECT COUNT(SEQ) FROM REVIEW
+	WHERE PSEQ=#{seq}
+</select>
+
+<update id="reviewUpdate" parameterType="lala.com.a.model.ReviewDto" >
+	UPDATE REVIEW
+	SET SCORE=#{score},TITLE=#{title},PSEQ=#{pseq}
+	WHERE SEQ=#{seq}
+</update>
+
+<select id="reviewUpList" parameterType="java.lang.Integer" resultType="lala.com.a.model.ReviewDto">
+	SELECT * FROM REVIEW
+	WHERE SEQ=#{seq}
+</select>
+
+
+<!-- 내가쓴글 total -->
+
+<select id="reviewTotalCnt" parameterType="lala.com.a.hotel.pagingBean" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(SEQ),0) FROM REVIEW
+	WHERE DEL=0 
+	AND ID=#{id}
+</select>
+
+
+
+<!-- 내가쓴 글 -->
+
+<select id="myWriteReviewList" parameterType="lala.com.a.hotel.pagingBean" resultType="lala.com.a.model.ReviewDto">
+	SELECT * FROM	
+		(SELECT * FROM
+			(SELECT R.SEQ AS SEQ,R.ID AS ID,R.TITLE AS TITLE,R.DEL AS DEL,R.PSEQ AS PSEQ,R.SCORE AS SCORE,
+				F.TITLE AS FTITLE,F.PLACE AS PLACE,F.EDATE AS EDATE,F.SDATE AS SDATE,
+				R.WDATE AS WDATE 
+				FROM REVIEW R , FESTIVAL F
+				WHERE R.PSEQ = F.SEQ AND R.DEL=0 AND R.ID=#{id}		
+				<!-- <if test="choice != ''">
+					AND F.PLACE LIKE '%'||#{choice}||'%' AND F.TITLE LIKE '%'||#{findWord}||'%'
+				</if> -->
+					ORDER BY SEQ ASC)
+				<![CDATA[
+				WHERE ROWNUM <= #{startNum} 
+				]]>
+				ORDER BY SEQ DESC)
+			<![CDATA[
+			WHERE ROWNUM <= #{countPerPage}
+			]]>
+</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Reply">
+
+<!-- 댓글페이징 토탈카운트 -->
+<select id="TotalCnt" parameterType="lala.com.a.util.pagingBean" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(SEQ),0) FROM REPLY
+	WHERE DEL=0 AND TNAME='FESTIVAL' AND PSEQ=#{seq}
+</select>
+
+<select id="festivalReplyList" parameterType="lala.com.a.util.pagingBean" resultType="lala.com.a.model.ReplyDto">
+SELECT * FROM	
+	(SELECT * FROM
+		(SELECT * FROM REPLY
+			WHERE DEL=0 AND PSEQ=#{seq} AND TNAME='FESTIVAL'
+			ORDER BY REF ASC,STEP DESC)
+			<![CDATA[
+			WHERE ROWNUM <= #{startNum} 
+			]]>
+				ORDER BY REF DESC,STEP ASC)
+			<![CDATA[
+			WHERE ROWNUM <= #{countPerPage}
+			]]>
+	
+	<!-- SELECT * FROM REPLY 
+	WHERE DEL=0 AND PSEQ=#{seq} AND TNAME='FESTIVAL'
+	ORDER BY REF ASC,STEP ASC -->
+</select>
+
+<insert id="festivalReplyInsert" parameterType="lala.com.a.model.ReplyDto">
+	INSERT INTO REPLY
+	(SEQ,PSEQ,TNAME,ID,CONTENT,REF,STEP,DEL,LOCK_,WDATE)
+	VALUES(SEQ_REP.NEXTVAL,#{pseq},'FESTIVAL',#{id},#{content},
+	(SELECT NVL(MAX(REF), 1)+1 FROM REPLY WHERE PSEQ=#{pseq} AND TNAME='FESTIVAL'),0,0,0,SYSDATE)
+</insert>
+<!-- 댓글삭제 -->
+<update id="replydel" parameterType="lala.com.a.model.ReplyDto">
+	UPDATE REPLY
+	SET DEL=1
+	WHERE SEQ=#{seq} AND PSEQ=#{pseq} AND TNAME='FESTIVAL'
+</update>
+
+<!-- 댓글 수정 -->
+<update id="replyUpdate" parameterType="lala.com.a.model.ReplyDto">
+	UPDATE REPLY
+	SET CONTENT=#{content}
+	WHERE SEQ=#{seq} AND PSEQ=#{pseq} AND TNAME='FESTIVAL'
+</update>
+
+
+<!-- 답글 -->
+<insert id="answer" parameterType="lala.com.a.model.ReplyDto">
+	INSERT INTO REPLY
+		(SEQ,PSEQ,TNAME,ID,CONTENT,REF,STEP,DEL,LOCK_,WDATE)
+		VALUES(SEQ_REP.NEXTVAL,#{pseq},'FESTIVAL',#{id},#{content},
+		(SELECT REF FROM REPLY WHERE SEQ=#{seq} AND TNAME='FESTIVAL' AND PSEQ=#{pseq}),
+		(SELECT NVL(MAX(STEP),0)+1 FROM REPLY WHERE SEQ=#{seq} AND TNAME='FESTIVAL' AND PSEQ=#{pseq}),
+		0,0,SYSDATE)
+</insert>
+
+<!-- reivewReply -->
+
+<select id="reivewReply" parameterType="lala.com.a.util.pagingBean" resultType="lala.com.a.model.ReplyDto">
+SELECT * FROM	
+	(SELECT * FROM
+		(SELECT * FROM REPLY
+			WHERE DEL=0 AND PSEQ=#{seq} AND TNAME='REVIEW'
+			ORDER BY REF ASC,STEP DESC)
+			<![CDATA[
+			WHERE ROWNUM <= #{startNum} 
+			]]>
+				ORDER BY REF DESC,STEP ASC)
+			<![CDATA[
+			WHERE ROWNUM <= #{countPerPage}
+			]]>
+
+
+<!-- 	SELECT * FROM REPLY
+	WHERE PSEQ=#{pseq} AND TNAME='REVIEW' AND DEL=0 -->
+</select>
+
+<insert id="reviewReplyInsert" parameterType="lala.com.a.model.ReplyDto">
+	INSERT INTO REPLY
+	(SEQ,PSEQ,TNAME,ID,CONTENT,REF,STEP,DEL,LOCK_,WDATE)
+	VALUES(SEQ_REP.NEXTVAL,#{pseq},'REVIEW',#{id},#{content},
+	(SELECT NVL(MAX(REF), 1)+1 FROM REPLY WHERE PSEQ=#{pseq} AND TNAME='REVIEW'),0,0,0,SYSDATE)
+</insert>
+
+<update id="ReivewreplyUpdate" parameterType="lala.com.a.model.ReplyDto">
+	UPDATE REPLY
+	SET CONTENT=#{content}
+	WHERE SEQ=#{seq} AND PSEQ=#{pseq} AND TNAME='REVIEW'
+</update>
+
+<update id="ReviewanswerDel" parameterType="lala.com.a.model.ReplyDto">
+	UPDATE REPLY
+	SET del=1
+	WHERE SEQ=#{seq} AND PSEQ=#{pseq} AND TNAME='REVIEW'
+</update> 
+
+<insert id="reviewAnswerWrite" parameterType="lala.com.a.model.ReplyDto">
+	INSERT INTO REPLY
+	(SEQ,PSEQ,TNAME,ID,CONTENT,REF,STEP,DEL,LOCK_,WDATE)
+	VALUES(SEQ_REP.NEXTVAL,#{pseq},'REVIEW',#{id},#{content},
+	(SELECT REF FROM REPLY WHERE SEQ=#{seq} AND TNAME='REVIEW' AND PSEQ=#{pseq}),
+	(SELECT NVL(MAX(STEP),0)+1 FROM REPLY WHERE SEQ=#{seq} AND TNAME='REVIEW' AND PSEQ=#{pseq}),
+	0,0,SYSDATE)
+</insert>
+
+<select id="reviewTotalCnt" parameterType="lala.com.a.util.pagingBean" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(SEQ),0) FROM REPLY
+	WHERE DEL=0 AND TNAME='REVIEW' AND PSEQ=#{seq}
+</select>
+
+<select id="MyReplyTotalCnt"  parameterType="lala.com.a.hotel.pagingBean" resultType="java.lang.Integer">
+	SELECT COUNT(SEQ) FROM REPLY
+	WHERE ID=#{id} AND DEL=0
+</select>
+
+<select id="myWriteReply" parameterType="lala.com.a.hotel.pagingBean" resultType="lala.com.a.model.ReplyDto">
+
+SELECT * FROM	
+	(SELECT * FROM
+		(SELECT * FROM REPLY
+			WHERE DEL=0 AND ID=#{id}
+			ORDER BY WDATE ASC)
+			<![CDATA[
+			WHERE ROWNUM <= #{startNum} 
+			]]>
+				ORDER BY WDATE DESC)
+			<![CDATA[
+			WHERE ROWNUM <= #{countPerPage}
+			]]>
+	
+</select>
+<!-- 삭제전 호텔 테이블의 댓글이면 따로 뺌 -->
+<select id="seachTname" parameterType="java.lang.Integer" resultType="lala.com.a.model.ReplyDto">
+	SELECT * FROM REPLY
+	WHERE SEQ=#{seq}
+</select>
+
+
+<update id="MyWriteReplyDel" parameterType="java.lang.Integer">
+	UPDATE REPLY
+	SET DEL=1
+	WHERE SEQ=#{seq}
+</update>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

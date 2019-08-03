@@ -1,0 +1,38 @@
+@charset "UTF-8";
+.main_container{
+	width:100%;
+	margin:50px;
+	
+}
+
+#top_info{
+	padding-left:20px;
+	font-weight: bold;
+	font-size: 30px !important;
+}
+.info_div{
+	width:900px;
+}
+.info_tb{
+	margin:50px 0 0 50px;
+	border-collapse: collapse;
+	font-size: 18px;
+	width:100%;
+}
+.info_tb th{
+	background-color: #2c4162;
+	border-right:2px solid white;
+	color:white;
+	border-bottom:1px solid white;
+	padding:8px 0 8px 10px;
+}
+.info_tb td{
+	background-color: #eeeeee;
+	color:black;
+	border-bottom:1px solid white;
+	padding:8px 0 8px 20px;
+}
+
+
+
+

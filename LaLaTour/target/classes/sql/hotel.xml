@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="Hotel">
+<!-- 리스트 카운트 -->
+<select id="getHotelCount" parameterType="lala.com.a.hotel.pagingBean" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(*), 0) AS CNT
+	FROM HOTEL
+	WHERE 1=1
+	AND DEL = 0
+	 	<if test="choice == 'title'">
+	 		AND TITLE LIKE '%'||#{findWord}||'%'
+	 	</if>
+	 	<if test="choice== 'content'">
+	 		AND CONTENT LIKE '%'||#{findWord}||'%'
+	 	</if>
+	 	<if test="place != 'all'">
+	 		AND PLACE LIKE '%'||#{place}||'%'
+	 	</if>
+</select>
+<!-- 리스트 -->
+<select id="getHotelList" parameterType="java.lang.Integer" resultType="lala.com.a.model.HotelDto">
+ SELECT *
+	FROM	
+		(SELECT *
+		FROM 
+			(SELECT SEQ, ID, TITLE, CONTENT, PLACE, DEL, THUMBNAIL, PRICE, MAXCOUNT, GRADE,MAPURL
+			FROM HOTEL
+			WHERE 1=1
+			AND DEL = 0
+			<if test="choice=='title'">
+		      AND TITLE LIKE '%'||#{findWord}||'%'
+		    </if>
+		    <if test="choice=='content'">
+		      AND CONTENT LIKE '%'||#{findWord}||'%'
+		    </if>
+		    <if test="place!='all'">
+		   	  AND PLACE LIKE '%' ||#{place}||'%'
+		    </if>
+			ORDER BY SEQ ASC)
+		WHERE ROWNUM <![CDATA[<=]]> #{startNum}
+		ORDER BY SEQ DESC)
+	WHERE ROWNUM <![CDATA[<=]]> #{countPerPage}
+	
+	ORDER BY SEQ DESC
+</select>
+<!-- 글쓰기 -->
+<insert id="writeHotel" parameterType="lala.com.a.model.HotelDto">
+
+	<selectKey keyProperty="seq" resultType="java.lang.Integer" order="BEFORE">
+		SELECT SEQ_HOT.NEXTVAL FROM DUAL
+	</selectKey>
+	INSERT INTO HOTEL(SEQ, ID, TITLE, CONTENT, PLACE, DEL, THUMBNAIL, PRICE, MAXCOUNT,GRADE,TNAME,MAPURL)
+	VALUES(SEQ_HOT.CURRVAL, #{id}, #{title}, #{content}, #{place}, 0, #{thumbnail}, #{price}, #{maxcount},0,'HOTEL',#{mapurl})
+</insert>
+<!-- 글쓰기시 파일업로드 -->
+<insert id="uploadHotelPds" parameterType="lala.com.a.model.PdsDto">
+	INSERT INTO PDS(SEQ, FILENAME_BF,FILENAME_AF,PSEQ,TNAME)
+	VALUES(SEQ_PDS.NEXTVAL, #{fileName_Bf}, #{fileName_Af}, #{pseq}, 'HOTEL')
+</insert>
+
+<!-- 디테일 -->
+<select id="getHotelDetail" parameterType="java.lang.Integer" resultType="lala.com.a.model.HotelDto">
+	SELECT *
+	FROM HOTEL
+	WHERE SEQ = #{seq}
+</select>
+<!-- 디테일 다중파일 -->
+<select id="getHotelPds" parameterType="java.lang.Integer" resultType="lala.com.a.model.PdsDto">
+	SELECT *
+	FROM PDS
+	WHERE PSEQ = #{pseq}
+	AND TNAME ='HOTEL'
+</select>
+<!-- 디테일안에서 예약관리 -->
+<select id="getReserveDate" parameterType="java.lang.Integer" resultType="lala.com.a.model.ReserveDto">
+	SELECT SDATE, EDATE
+	FROM RESERVE
+	WHERE PSEQ = #{pseq}
+</select>
+<!-- 댓글 갯수 -->
+<select id="getReplyCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM REPLY
+	WHERE TNAME = 'HOTEL'
+	AND PSEQ = #{pseq}
+	AND DEL = 0 
+</select>
+<!-- 댓글보기 -->
+<select id="getReplyList" parameterType="lala.com.a.hotel.pagingBean" resultType="lala.com.a.model.ReplyDto">
+SELECT * FROM 
+	(SELECT * FROM
+			(SELECT R.SEQ, R.PSEQ, R.TNAME, R.ID, R.CONTENT, R.REF, R.STEP, R.WDATE, R.DEL, R.LOCK_,R.GRADE, M.NAME
+			FROM  REPLY R, MEMBER M  
+			WHERE R.PSEQ = #{pseq}
+			AND R.TNAME = 'HOTEL'
+			AND R.ID = M.ID
+			AND R.DEL = 0
+			ORDER BY R.REF DESC,STEP DESC)      
+	WHERE ROWNUM <![CDATA[<=]]> #{startNum}
+	ORDER BY REF ASC,STEP ASC)
+WHERE ROWNUM <![CDATA[<=]]> #{countPerPage}
+ORDER BY REF ASC,STEP ASC
+</select>
+<!-- 댓글쓰기 -->
+<insert id="addReply" parameterType="lala.com.a.model.ReplyDto">
+	INSERT INTO REPLY(SEQ, PSEQ, TNAME, ID, CONTENT, REF, STEP, WDATE, DEL, LOCK_,GRADE)
+	VALUES(SEQ_REP.NEXTVAL, #{pseq}, 'HOTEL',#{id},#{content},
+			(SELECT NVL( MAX(REF),0 )+1 
+			FROM REPLY 
+			WHERE PSEQ = #{pseq} 
+			AND TNAME='HOTEL'),
+		 0 , SYSDATE, 0, 0,#{grade})
+</insert>
+<!-- 대댓글쓰기 -->
+<insert id="addRereply" parameterType="lala.com.a.model.ReplyDto">
+	INSERT INTO REPLY(SEQ, PSEQ, TNAME, ID, CONTENT, REF, STEP, WDATE, DEL, LOCK_)
+	VALUES(
+		SEQ_REP.NEXTVAL,
+		#{pseq}, 'HOTEL', #{id},#{content},#{ref},
+		(SELECT NVL( MAX(STEP),0 )+1 FROM REPLY WHERE PSEQ = #{pseq} AND TNAME='HOTEL' AND REF = #{ref}),
+		SYSDATE, 0, 0
+	)
+</insert>
+<!-- 댓글삭제  -->
+<update id="delReply" parameterType="lala.com.a.model.ReplyDto">
+	UPDATE REPLY
+	SET DEL = 1
+	WHERE PSEQ = #{pseq}
+	AND TNAME = 'HOTEL'
+	AND SEQ = #{seq}
+</update>
+<!-- 예약하기 -->
+<insert id="addHotelReserve" parameterType="lala.com.a.model.ReserveDto">
+	INSERT INTO RESERVE(SEQ, MERCHANT, ID, SDATE, EDATE, DEL, PSEQ, RE_PRICE, WDATE)
+	VALUES(SEQ_RES.NEXTVAL, #{merchant}, #{id}, #{sdate}, #{edate}, 0, #{pseq}, #{re_price}, SYSDATE)
+</insert>
+
+<!-- 파일삭제 -->
+<delete id="delHotelPds" parameterType="java.lang.Integer">
+	DELETE FROM PDS
+	WHERE SEQ = #{seq}
+</delete>
+<!-- 호텔수정 -->
+<update id="setHotelUpdate" parameterType="lala.com.a.model.HotelDto">
+	UPDATE HOTEL
+	SET TITLE = #{title},
+	CONTENT =#{content},
+	PLACE = #{place},
+	THUMBNAIL = #{thumbnail},
+	PRICE = #{price},
+	MAXCOUNT = #{maxcount},
+	MAPURL = #{mapurl}
+	WHERE SEQ = #{seq}
+</update>
+<!-- 호텔삭제 -->
+<update id="setHotelDelete"  parameterType="java.lang.Integer">
+	UPDATE HOTEL
+	SET DEL = 1
+	WHERE SEQ = #{seq}
+</update>
+<!-- 호텔삭제시 댓글삭제 -->
+<update id="setReplyDelete"  parameterType="java.lang.Integer">
+	UPDATE REPLY
+	SET DEL = 1
+	WHERE PSEQ = #{seq}
+	AND TNAME = 'HOTEL'
+</update>
+<!-- 호텔 현재 평점 -->
+<select id="getReplyGrade" parameterType="java.lang.Integer" resultType="java.lang.Double">
+	SELECT GRADE
+	FROM HOTEL
+	WHERE SEQ = #{pseq}
+</select>
+<!-- 호텔평점 갱신 -->
+<update id="setHotelGrade" parameterType="lala.com.a.model.HotelDto">
+	UPDATE HOTEL
+	SET GRADE = #{grade}
+	WHERE SEQ = #{seq}
+</update>
+<!-- 예약디테일 -->
+<select id="getMyReserveOne" parameterType="java.lang.Integer" resultType="lala.com.a.model.ReserveDto">
+	SELECT R.SEQ, R.MERCHANT, R.ID, R.SDATE, R.EDATE, R.DEL, R.PSEQ, R.RE_PRICE, R.WDATE , H.TITLE, H.CONTENT,H.THUMBNAIL
+	FROM RESERVE R, HOTEL H
+	WHERE R.PSEQ =  H.SEQ
+	AND R.SEQ = #{seq}
+	AND R.DEL = 0
+</select>
+<!-- 예약 취소신청 -->
+<update id="setReserveCancel" parameterType="java.lang.Integer">
+	UPDATE RESERVE
+	SET DEL = 2
+	WHERE SEQ = #{seq}
+</update>
+<!-- DEL = 0 인 댓글갯수 -->
+<select id="getReplyCount2" parameterType="java.lang.Integer" resultType="lala.com.a.model.ReplyDto">
+	SELECT COUNT(SEQ) AS SEQ, SUM(GRADE) AS GRADE
+	FROM REPLY
+	WHERE DEL = 0
+	AND PSEQ = #{pseq}
+	AND STEP = 0
+</select>
+<!-- 안명길 : 호텔 리스트 가져오기 -->
+<select id="HotelJoinFestival" parameterType="java.lang.String" resultType="lala.com.a.model.HotelDto">
+	SELECT * FROM HOTEL
+	WHERE DEL=0 AND PLACE LIKE '%'||#{place}||'%'
+	ORDER BY GRADE DESC
+</select>
+</mapper>

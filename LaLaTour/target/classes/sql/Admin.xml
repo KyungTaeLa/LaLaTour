@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="Admin">
+
+<!-- 밑에꺼 count -->
+<select id="getCancelReserveCount" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM RESERVE R, HOTEL H
+	WHERE R.PSEQ= H.SEQ
+	AND R.DEL = 2
+</select>
+<!-- 취소승인대기중인 호텔예약내역 -->
+<select id="getCancelReserveList" parameterType="lala.com.a.hotel.pagingBean" resultType="lala.com.a.model.ReserveDto">
+	SELECT * FROM 
+		(SELECT * FROM
+			(SELECT R.SEQ, R.MERCHANT, R.ID, R.SDATE, R.EDATE, R.DEL, R.PSEQ, R.RE_PRICE, R.WDATE , H.TITLE, H.CONTENT
+			FROM  RESERVE R, HOTEL H
+			WHERE R.PSEQ = H.SEQ
+			AND R.DEL = 2
+			ORDER BY SEQ ASC)      
+		WHERE ROWNUM <![CDATA[<=]]> #{startNum}
+		ORDER BY SEQ DESC)
+	WHERE ROWNUM <![CDATA[<=]]> #{countPerPage}
+	ORDER BY SEQ DESC
+</select>
+<update id="setCancelReserve" parameterType="java.lang.Integer">
+	UPDATE RESERVE
+	SET DEL = 1
+	WHERE SEQ = #{seq}
+</update>
+
+<!-- 관리자 리스트 -->
+<select id="getAdminList" parameterType="lala.com.a.admin.PagingBean" resultType="lala.com.a.model.MemberDto">
+SELECT * FROM (
+	SELECT * FROM (
+		SELECT ID,NAME,PWD,EMAIL,PHONE,ANSWER,DEL,QUESTION,ADDRESS,AUTH
+		FROM MEMBER
+		WHERE 1=1
+		AND AUTH=1
+		<if test="findWord!=null and findWord!=''">
+			<if test="choice=='id'">
+				AND ID LIKE '%'||#{findWord}||'%'
+			</if>
+			<if test="choice=='name'">
+				AND NAME LIKE '%'||#{findWord}||'%'
+			</if>
+		</if>
+		ORDER BY ID DESC)
+	<![CDATA[
+	WHERE ROWNUM<=#{startNum}
+	]]>
+	ORDER BY ID ASC)
+<![CDATA[
+WHERE ROWNUM<=#{countPerPage}
+]]>
+ORDER BY ID ASC
+</select>
+
+<!-- 관리자 카운트 취득 -->
+<select id="getAdminTotalCount" parameterType="lala.com.a.admin.PagingBean" resultType="java.lang.Integer">
+SELECT NVL(COUNT(*),0) AS CNT
+FROM MEMBER
+WHERE 1=1
+AND AUTH=1
+<if test="findWord!=null and findWord!=''">
+	<if test="choice=='id'">
+		AND ID LIKE '%'||#{findWord}||'%'
+	</if>
+	<if test="choice=='name'">
+		AND NAME LIKE '%'||#{findWord}||'%'
+	</if>
+</if>
+</select>
+
+<!-- 관리자생성 -->
+<insert id="adminJoinAf" parameterType="lala.com.a.model.MemberDto">
+INSERT INTO MEMBER(
+	ID,PWD,NAME,EMAIL,PHONE,
+	ANSWER,ADDRESS,
+	QUESTION,DEL,AUTH)
+VALUES(
+	#{id},#{pwd},#{name},#{email},#{phone},
+	#{answer},#{address},
+	#{question},#{del},#{auth})
+</insert>
+
+<!-- 비밀번호 질문 리스트 -->
+<select id="getQuestionList" resultType="lala.com.a.model.QuestionDto">
+SELECT *
+FROM QUESTION
+</select>
+
+<!-- 관리자 디테일 -->
+<select id="adminDetail" parameterType="java.lang.String" resultType="lala.com.a.model.MemberDto">
+SELECT M.ADDRESS , M.ANSWER , M.AUTH , M.DEL , M.EMAIL , M.ID , M.NAME , M.PHONE , M.PWD , M.QUESTION , Q.SEQ , Q.TITLE 
+FROM MEMBER M, QUESTION Q
+WHERE M.QUESTION = Q.SEQ
+AND ID=#{id}
+</select>
+
+<!-- 관리자 정보 수정 -->
+<update id="adminUpdateAf" parameterType="lala.com.a.model.MemberDto">
+UPDATE MEMBER
+SET
+	PWD=#{pwd},
+	NAME=#{name},
+	EMAIL=#{email},
+	PHONE=#{phone},
+	ANSWER=#{answer},
+	ADDRESS=#{address},
+	QUESTION=#{question}
+WHERE ID=#{id}
+</update>
+
+
+<!-- 회원 리스트 -->
+<select id="getMemberList" parameterType="lala.com.a.admin.PagingBean" resultType="lala.com.a.model.MemberDto">
+SELECT * FROM (
+	SELECT * FROM (
+		SELECT ID,NAME,PWD,EMAIL,PHONE,ANSWER,DEL,QUESTION,ADDRESS,AUTH
+		FROM MEMBER
+		WHERE 1=1
+		AND AUTH=0
+		AND DEL=0
+		<if test="findWord!=null and findWord!=''">
+			<if test="choice=='id'">
+				AND ID LIKE '%'||#{findWord}||'%'
+			</if>
+			<if test="choice=='name'">
+				AND NAME LIKE '%'||#{findWord}||'%'
+			</if>
+		</if>
+		ORDER BY ID DESC)
+	<![CDATA[
+	WHERE ROWNUM<=#{startNum}
+	]]>
+	ORDER BY ID ASC)
+<![CDATA[
+WHERE ROWNUM<=#{countPerPage}
+]]>
+ORDER BY ID ASC
+</select>
+
+<!-- 회원 카운트 취득 -->
+<select id="getMemberTotalCount" parameterType="lala.com.a.admin.PagingBean" resultType="java.lang.Integer">
+SELECT NVL(COUNT(*),0) AS CNT
+FROM MEMBER
+WHERE 1=1
+AND AUTH=0
+AND DEL=0
+<if test="findWord!=null and findWord!=''">
+	<if test="choice=='id'">
+		AND ID LIKE '%'||#{findWord}||'%'
+	</if>
+	<if test="choice=='name'">
+		AND NAME LIKE '%'||#{findWord}||'%'
+	</if>
+</if>
+</select>
+
+
+<!-- 탈퇴회원 리스트 -->
+<select id="getMemberListNo" parameterType="lala.com.a.admin.PagingBean" resultType="lala.com.a.model.MemberDto">
+SELECT * FROM (
+	SELECT * FROM (
+		SELECT ID,NAME,PWD,EMAIL,PHONE,ANSWER,DEL,QUESTION,ADDRESS,AUTH
+		FROM MEMBER
+		WHERE 1=1
+		AND AUTH=0
+		AND DEL=1
+		<if test="findWord!=null and findWord!=''">
+			<if test="choice=='id'">
+				AND ID LIKE '%'||#{findWord}||'%'
+			</if>
+			<if test="choice=='name'">
+				AND NAME LIKE '%'||#{findWord}||'%'
+			</if>
+		</if>
+		ORDER BY ID DESC)
+	<![CDATA[
+	WHERE ROWNUM<=#{startNum}
+	]]>
+	ORDER BY ID ASC)
+<![CDATA[
+WHERE ROWNUM<=#{countPerPage}
+]]>
+ORDER BY ID ASC
+</select>
+
+<!-- 탈퇴회원 카운트 취득 -->
+<select id="getMemberTotalCountNo" parameterType="lala.com.a.admin.PagingBean" resultType="java.lang.Integer">
+SELECT NVL(COUNT(*),0) AS CNT
+FROM MEMBER
+WHERE 1=1
+AND AUTH=0
+AND DEL=1
+<if test="findWord!=null and findWord!=''">
+	<if test="choice=='id'">
+		AND ID LIKE '%'||#{findWord}||'%'
+	</if>
+	<if test="choice=='name'">
+		AND NAME LIKE '%'||#{findWord}||'%'
+	</if>
+</if>
+</select>
+
+<!-- 제품전체목록 -->
+<select id="getProductListAdmin" parameterType="lala.com.a.admin.PagingBean" resultType="lala.com.a.model.ProductDto">
+SELECT * FROM (
+	SELECT * FROM (
+		SELECT PRODUCT_SEQ,ID,TITLE,SUBTITLE,CONTENT,PCOUNT,PRICE,PLACE,THUMBNAIL,FSEQ,WDATE,DEL,TNAME,PPOINT,HCOUNT
+		FROM PRODUCT
+		WHERE 1=1
+		AND DEL=0
+		<if test="findWord!=null and findWord!=''">
+			<if test="choice=='title'">
+				AND TITLE LIKE '%'||#{findWord}||'%'
+			</if>
+		</if>
+		ORDER BY PRODUCT_SEQ ASC)
+	<![CDATA[	
+	WHERE ROWNUM<=#{startNum}
+	]]>
+	ORDER BY PRODUCT_SEQ DESC)
+<![CDATA[	
+WHERE ROWNUM<=#{countPerPage}
+]]>
+ORDER BY PRODUCT_SEQ DESC
+
+</select>
+
+<!-- 제품전체목록 글의총갯수 -->
+<select id="getProductTotalCountAdmin" parameterType="lala.com.a.admin.PagingBean" resultType="java.lang.Integer">
+SELECT NVL(COUNT(*),0) AS CNT
+FROM PRODUCT
+WHERE 1=1
+AND DEL=0
+<if test="findWord!=null and findWord!=''">
+	<if test="choice=='title'">
+		AND TITLE LIKE '%'||#{findWord}||'%'
+	</if>
+</if>
+ORDER BY PRODUCT_SEQ DESC
+</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

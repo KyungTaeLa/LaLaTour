@@ -1,0 +1,77 @@
+@charset "UTF-8";
+body { margin: 0; }
+.zeta-menu-bar {
+  background: white;
+  display: block;
+  width: 100%;
+}
+.zeta-menu { 
+   margin-bottom: 10px;
+   padding: 0;
+   /* right: 50px;
+   left: 30px;
+   top: 100px;
+   bottom: 80px; */
+   background-color: gray;
+   margin: center;
+   z-index: 200;
+   }
+.zeta-menu li {
+  float: right;
+  list-style:none;
+  font-size: 21px;
+  padding-right: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  position: relative;
+  height: 20px;
+}  
+.zeta-menu > li {
+	font-weight:600;
+}
+.zeta-menu_in li{
+	font-weight:300;
+	text-align: left !important;
+	padding-left:15px;
+	padding-top:15px;
+	font-size:16px;
+}
+.zeta-menu_in{
+	margin-top:10px;
+}
+.zeta-menu li:hover { background: white; }
+.zeta-menu li:hover>a { color: #0966bc; }
+.zeta-menu a {
+  display: block;
+ /*  padding: 10px 10px; */
+  text-decoration: none;
+  width: 130px;
+  color:#333;
+}
+.zeta-menu ul {
+  background: white;
+  /* border: 1px solid silver; */
+  box-shadow: 1px 1px 8px rgba(0,0,0,.3);
+  /* border: 1px solid gray; */
+  border-radius: 10px;
+  display: none;
+  padding: 0;
+  position: absolute;
+  float: right;
+  /* top: 100%; */
+  width: 180px !important;
+  z-index: 200;
+}
+.zeta-menu a{color:#333;}
+.zeta-menu a:visited{color:#333;}
+.zeta-menu a:link{color:#333;}
+.zeta-menu ul li { float: none; }
+.zeta-menu ul li:hover { background: none; font-weight:bold;border-radius: 10px; z-index: 0;display: inline-block; width: 180px !important;}
+.zeta-menu ul li:hover a { color: #0966bc;text-align: left;}
+.zeta-menu ul a { color: #333; }
+.zeta-menu ul ul { right: 100%; top: 0; display: nono;}
+.zeta-menu ul ul li {float:right; margin-right:10px;display: block;z-index: 200;font-size: 15px;}
+ 
+.nav-container {background-color: white; repeat-x: 0 0; right: 100%;}
+.f-nav {z-index:9999; position:fixed; left:0; top:0; width:100%;padding-top:10px;
+   background-color: white;height: 60px;text-align: center;border-bottom: 2px solid #e8e8e8;}

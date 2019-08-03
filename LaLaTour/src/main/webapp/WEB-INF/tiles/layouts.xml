@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+<!-- 메인페이지 메인페이지 메인페이지 메인페이지 메인페이지 메인페이지 메인페이지 -->
+<definition name="mainpage.tiles" template="/WEB-INF/views/layouts-tiles.jsp">
+   <put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
+   <put-attribute name="top_inc" value="/WEB-INF/views/common/top_inc.jsp"/>
+   <put-attribute name="top_menu" value="/WEB-INF/views/common/top_menu.jsp"/>
+   <put-attribute name="main" value="/WEB-INF/views/main/mainpage.jsp"/>
+   <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
+</definition>
+
+<!-- login 화면 -->
+<definition name="login.tiles" template="/WEB-INF/views/layouts-tiles.jsp">
+   <put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
+   <put-attribute name="top_inc" value="/WEB-INF/views/common/top_inc.jsp"/>
+   <put-attribute name="top_menu" value="/WEB-INF/views/common/top_menu.jsp"/>
+   <put-attribute name="main" value="/WEB-INF/views/member/login.jsp"/>
+   <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
+</definition>
+
+<!-- 로그인 에러 -->
+<definition name="error.tiles" template="/WEB-INF/views/member/error.jsp"> </definition>
+
+<!-- join 화면 -->
+<definition name="join.tiles" extends="mainpage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/member/join.jsp"/>
+</definition>
+
+
+
+
+<!-- 오지훈 -오지훈 -오지훈 -오지훈 -오지훈 -오지훈 - product ///////////////////////////////////////////////// -->
+<definition name="productlist.tiles" template="/WEB-INF/views/layouts-tiles.jsp">
+   <put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
+   <put-attribute name="top_inc" value="/WEB-INF/views/common/top_inc.jsp"/>
+   <put-attribute name="top_menu" value="/WEB-INF/views/common/top_menu.jsp"/>
+   <put-attribute name="main" value="/WEB-INF/views/product/productlist.jsp"/>
+   <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
+</definition>
+
+<!-- productwrite 화면 -->
+<definition name="productwrite.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/productwrite.jsp"/>
+</definition>
+
+<!-- productdetail 화면 -->
+<definition name="productdetail.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/productdetail3.jsp"/>
+</definition>
+
+<!-- productupdate 화면 -->
+<definition name="productupdate.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/productupdate.jsp"/>
+</definition>
+
+<!-- cartlist 화면 -->
+<definition name="cartlist.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/cartlist.jsp"/>
+</definition>
+
+<!-- orderedlist 화면 -->
+<definition name="orderedlist.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/orderedlist.jsp"/>
+</definition>
+
+<!-- selllist 화면 (과거주문내역) -->
+<definition name="selllist.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/selllist.jsp"/>
+</definition>
+
+<!-- oslist 화면 (과거주문내역 - 특정주문번호) -->
+<definition name="oslist.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/oslist.jsp"/>
+</definition>
+
+<!-- insertgoods 화면 (상품평 쓰는 화면) -->
+<definition name="insertgoods.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/insertgoods.jsp"/>
+</definition>
+
+<!-- insertgoods 화면 (상품평 쓰는 화면) -->
+<definition name="goodsdetail.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/goodsdetail.jsp"/>
+</definition>
+
+
+
+
+<!-- 미팅게시판  미팅게시판  미팅게시판  미팅게시판  미팅게시판  미팅게시판  미팅게시판 -->
+<definition name="meeting.tiles" extends="productlist.tiles">
+<put-attribute name="main" value="/WEB-INF/views/comunity/meeting.jsp"/>
+</definition>
+
+<definition name="meetWrite.tiles" extends="productlist.tiles">
+<put-attribute name="main" value="/WEB-INF/views/comunity/meetWrite.jsp"/>
+</definition>
+
+<definition name="meetDetail.tiles" extends="productlist.tiles">
+<put-attribute name="main" value="/WEB-INF/views/comunity/meetDetail.jsp"/>
+</definition>
+
+<!-- 아이디 비번찾기  아이디 비번찾기  아이디 비번찾기  아이디 비번찾기  아이디 비번찾기  아이디 비번찾기 -->
+<definition name="findId.tiles" extends="login.tiles">
+<put-attribute name="main" value="/WEB-INF/views/member/findId.jsp"/>
+</definition>
+
+<definition name="findIdAf.tiles" extends="login.tiles">
+<put-attribute name="main" value="/WEB-INF/views/member/findIdAf.jsp"/>
+</definition>
+
+
+<definition name="findPwd.tiles" extends="login.tiles">
+<put-attribute name="main" value="/WEB-INF/views/member/findPwd.jsp"/>
+</definition>
+
+<definition name="findPwdAf.tiles" extends="login.tiles">
+<put-attribute name="main" value="/WEB-INF/views/member/findPwdAf.jsp"/>
+</definition>
+
+
+<!-- 자유게시판 자유게시판 자유게시판 자유게시판 자유게시판 자유게시판 자유게시판 자유게시판 자유게시판 자유게시판 -->
+<definition name="bbslist.tiles" extends="productlist.tiles">
+<put-attribute name="main" value="/WEB-INF/views/comunity/bbsList.jsp"/>
+</definition>
+
+<definition name="bbsWrite.tiles" extends="productlist.tiles">
+<put-attribute name="main" value="/WEB-INF/views/comunity/bbsWrite.jsp"/>
+</definition>
+
+<definition name="bbsDetail.tiles" extends="productlist.tiles">
+<put-attribute name="main" value="/WEB-INF/views/comunity/bbsDetail.jsp"/>
+</definition>
+
+<definition name="bbsUpdate.tiles" extends="productlist.tiles">
+<put-attribute name="main" value="/WEB-INF/views/comunity/bbsUpdate.jsp"/>
+</definition>
+
+<!-- 호텔게시판 호텔게시판 호텔게시판 호텔게시판 호텔게시판 호텔게시판 호텔게시판 호텔게시판 -->
+
+<definition name="hotellist.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/hotel/hotellist.jsp"/>
+</definition>
+
+<definition name="hotelwrite.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/hotel/hotelwrite.jsp"/>
+</definition>
+<definition name="hoteldetail.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/hotel/hoteldetail.jsp"/>
+</definition>
+<definition name="reserve.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/hotel/reserve.jsp"/>
+</definition>
+<definition name="hotelupdate.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/hotel/hotelupdate.jsp"/>
+</definition>
+<definition name="cancelReserve.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/hotel/cancelReserve.jsp"/>
+</definition>
+
+<!-- 관리자페이지 관리자페이지 관리자페이지 관리자페이지 관리자페이지 관리자페이지 관리자페이지 관리자페이지 관리자페이지 -->
+
+<!-- 관리자 시작 190527 -->
+<definition name="admin.tiles" template="/WEB-INF/views/layouts-my-tiles.jsp">
+   <put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
+   <put-attribute name="top_inc" value="/WEB-INF/views/common/top_inc.jsp"/>
+   <put-attribute name="top_menu" value="/WEB-INF/views/common/top_menu.jsp"/>
+   <put-attribute name="left_main" value="/WEB-INF/views/common/left_main_admin.jsp"/>
+   <put-attribute name="main" value="/WEB-INF/views/admin/adminMain.jsp"/>
+   <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
+</definition>
+
+<!-- 관리자생성 페이지 -->
+<definition name="adminJoin.tiles" extends="admin.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/admin/adminJoin.jsp"/>
+</definition>
+
+<!-- 관리자 디테일 -->
+<definition name="adminDetail.tiles" extends="admin.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/admin/adminDetail.jsp"/>
+</definition>
+
+<!-- 관리자 수정 -->
+<definition name="adminUpdate.tiles" extends="admin.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/admin/adminUpdate.jsp"/>
+</definition>
+
+<!-- 호텔예약 취소관리 -->
+<definition name="cancelReserve.tiles" extends="admin.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/admin/cancelReserve.jsp"/>
+</definition>
+
+<!-- 회원 목록 -->
+<definition name="member.tiles" extends="admin.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/admin/member.jsp"/>
+</definition>
+
+<!-- 탈퇴 회원 목록 -->
+<definition name="memberNo.tiles" extends="admin.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/admin/memberNo.jsp"/>
+</definition>
+
+<!-- 쇼핑몰 재고관리 -->
+<definition name="adminProductList.tiles" extends="admin.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/admin/adminProductList.jsp"/>
+</definition>
+
+
+
+<!-- 마이페이지   마이페이지   마이페이지   마이페이지   마이페이지   마이페이지   마이페이지   마이페이지  -->
+
+<definition name="myPage.tiles" template="/WEB-INF/views/layouts-my-tiles.jsp">
+   <put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
+   <put-attribute name="top_inc" value="/WEB-INF/views/common/top_inc.jsp"/>
+   <put-attribute name="top_menu" value="/WEB-INF/views/common/top_menu.jsp"/>
+   <put-attribute name="left_main" value="/WEB-INF/views/myPage/myCategory.jsp"/>
+   <put-attribute name="main" value="/WEB-INF/views/myPage/myPage.jsp"/>
+   <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
+</definition>
+
+<definition name="myCalendar.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/myPage/myCalendar.jsp"/>
+</definition>
+
+<definition name="myReserveList.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/myPage/myReserveList.jsp"/>
+</definition>
+
+<definition name="myInfoChange.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/myPage/myInfoChange.jsp"/>
+</definition>
+
+<definition name="myMemberDrop.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/myPage/myMemberDrop.jsp"/>
+</definition>
+<definition name="selllist.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/selllist.jsp"/>
+</definition>
+<definition name="cartlist.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/product/cartlist.jsp"/>
+</definition>
+
+<definition name="MyWriteReply.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/myPage/myWriteReply.jsp"/>
+</definition>
+
+<definition name="MyWriteReview.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/myPage/MyWriteReview.jsp"/>
+</definition> 
+
+<definition name="MyWriteMeeting.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/myPage/MyWriteMeeting.jsp"/>
+</definition> 
+
+<definition name="MyWriteBbs.tiles" extends="myPage.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/myPage/MyWriteBbs.jsp"/>
+</definition>
+
+
+<!-- 지역명소  지역명소  지역명소  지역명소  지역명소  지역명소  지역명소  지역명소  지역명소  지역명소  지역명소  지역명소  -->
+<!-- 지역명소 -->
+<definition name="location_attrac.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location/location_attrac.jsp"/>
+</definition>
+
+<definition name="location_attrac_write.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location/location_attrac_write.jsp"/>
+</definition>
+
+<definition name="location_attrac_detail.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location/location_attrac_detail.jsp"/>
+</definition>
+
+<definition name="location_attrac_update.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location/location_attrac_update.jsp"/>
+</definition>
+<definition name="location_attrac_upreply.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location/location_attrac_upreply.jsp"/>
+</definition>
+<definition name="location_attrac_subreply.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location/location_attrac_subreply.jsp"/>
+</definition>
+
+
+<!-- 음식점 -->
+<definition name="location_food.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_food/location_food.jsp"/>
+</definition>
+
+<definition name="location_food_write.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_food/location_food_write.jsp"/>
+</definition>
+
+<definition name="location_food_detail.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_food/location_food_detail.jsp"/>
+</definition>
+
+<definition name="location_food_update.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_food/location_food_update.jsp"/>
+</definition>
+<definition name="location_food_upreply.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_food/location_food_upreply.jsp"/>
+</definition>
+<definition name="location_food_subreply.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_food/location_food_subreply.jsp"/>
+</definition>
+
+<!-- 쇼핑 -->
+<definition name="location_shop.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_shop/location_shop.jsp"/>
+</definition>
+
+<definition name="location_shop_write.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_shop/location_shop_write.jsp"/>
+</definition>
+
+<definition name="location_shop_detail.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_shop/location_shop_detail.jsp"/>
+</definition>
+
+<definition name="location_shop_update.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_shop/location_shop_update.jsp"/>
+</definition>
+<definition name="location_shop_upreply.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_shop/location_shop_upreply.jsp"/>
+</definition>
+<definition name="location_shop_subreply.tiles" extends="productlist.tiles">
+	<put-attribute name="main" value="/WEB-INF/views/location_shop/location_shop_subreply.jsp"/>
+</definition>
+
+
+<definition name="festivalList.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/FestivalList.jsp"/>
+</definition>
+
+
+<definition name="FestivalWrite.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/FestivalWrite.jsp"/>
+</definition>
+
+<definition name="festivalDetail.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/festivalDetail.jsp"/>
+</definition>
+
+<definition name="festivalUpdate.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/festivalUpdate.jsp"/>
+</definition>
+
+<definition name="endFestivalList.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/endFestivalList.jsp"/>
+</definition>
+
+
+
+<!-- 안명길  안명길  안명길  안명길  안명길  안명길  안명길  안명길  안명길  안명길  안명길  안명길  안명길  안명길  축제-->
+<!-- FestivalWrite-->
+<definition name="festivalList.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/FestivalList.jsp"/>
+</definition>
+
+
+<definition name="FestivalWrite.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/FestivalWrite.jsp"/>
+</definition>
+
+<definition name="festivalDetail.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/festivalDetail.jsp"/>
+</definition>
+
+<definition name="festivalUpdate.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/festivalUpdate.jsp"/>
+</definition>
+
+<definition name="endFestivalList.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/Festival/endFestivalList.jsp"/>
+</definition>
+
+<!-- 안명길 축제후기 -->
+
+<definition name="reviewList.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/review/reviewList.jsp"/>
+</definition>
+
+<definition name="reivewWriteAf.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/review/reivewWriteAf.jsp"/>
+</definition>
+
+<definition name="seachFestival.tiles"  template="/WEB-INF/views/review/seachFestival.jsp"/>
+
+<definition name="festivalSeach1.tiles"  template="/WEB-INF/views/review/seachFestival1.jsp"/>
+
+<definition name="reviewDetail.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/review/reviewDetail.jsp"/>
+</definition> 
+
+<definition name="reviewUpdate.tiles" extends="productlist.tiles" >
+	<put-attribute name="main" value="/WEB-INF/views/review/reviewUpdate.jsp"/>
+</definition>
+
+</tiles-definitions>
+
+

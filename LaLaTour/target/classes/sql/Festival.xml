@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  
+<mapper namespace="Festival" >
+
+<select id="sfestival" resultType="lala.com.a.model.FestivalDto">
+	SELECT * FROM FESTIVAL
+</select>
+
+<update id="edateUpdate" parameterType="java.lang.Integer">
+	UPDATE FESTIVAL
+	SET DEL=2
+	WHERE SEQ=#{seq}
+</update>
+
+<select id="totalCnt" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(SEQ),0) FROM FESTIVAL
+	WHERE DEL=0
+	<if test="choice !=''">
+		AND PLACE LIKE '%'||#{choice}||'%' AND TITLE LIKE '%'||#{findWord}||'%'
+	</if>
+</select>
+
+<select id="ftList" parameterType="lala.com.a.util.pagingBean" resultType="lala.com.a.model.FestivalDto">
+SELECT * FROM	
+	(SELECT * FROM
+		(SELECT * FROM FESTIVAL
+		WHERE DEL=0				
+			<if test="choice != ''">
+				AND PLACE LIKE '%'||#{choice}||'%' AND TITLE LIKE '%'||#{findWord}||'%'
+			</if>
+				ORDER BY SEQ ASC)
+			<![CDATA[
+			WHERE ROWNUM <= #{startNum} 
+			]]>
+				ORDER BY SEQ DESC)
+			<![CDATA[
+			WHERE ROWNUM <= #{countPerPage}
+			]]>
+	
+</select>
+
+<select id="endtotalCnt" resultType="java.lang.Integer">
+	SELECT NVL(COUNT(SEQ),0) FROM FESTIVAL
+	WHERE DEL=2 
+	<if test="choice !=''">
+		AND PLACE LIKE '%'||#{choice}||'%' AND TITLE LIKE '%'||#{findWord}||'%'
+	</if>
+</select>
+
+<select id="endFtList" parameterType="lala.com.a.util.pagingBean" resultType="lala.com.a.model.FestivalDto">
+SELECT * FROM	
+	(SELECT * FROM
+		(SELECT * FROM FESTIVAL
+			WHERE DEL=2				
+				<if test="choice !=''">
+					AND PLACE LIKE '%'||#{choice}||'%' AND TITLE LIKE '%'||#{findWord}||'%'
+				</if>					 
+			ORDER BY SEQ ASC)
+			<![CDATA[
+			WHERE ROWNUM <= #{startNum} 
+			]]>
+				ORDER BY SEQ DESC)
+			<![CDATA[
+			WHERE ROWNUM <= #{countPerPage}
+			]]>
+
+</select>
+
+
+<insert id="ftUpload" parameterType="lala.com.a.model.FestivalDto">
+	INSERT INTO FESTIVAL
+	(SEQ,ID,TITLE,CONTENT,SDATE,EDATE,DEL,READCOUNT,THUMBNAIL,PLACE,TNAME,SCORE)
+	VALUES(SEQ_FES.NEXTVAL,#{id},#{title},#{content},#{sDate},#{eDate},0,0,#{thumbnail},#{place},'FESTIVAL',0)	
+</insert>
+
+<select id="festivalDetailView" parameterType="java.lang.Integer" resultType="lala.com.a.model.FestivalDto">
+	SELECT * FROM FESTIVAL
+	WHERE SEQ=#{seq} AND TNAME='FESTIVAL'
+</select>
+
+<update id="festivalDelete" parameterType="java.lang.Integer">
+	UPDATE FESTIVAL 
+	SET DEL = 1
+	WHERE SEQ=#{seq}
+</update>
+
+<select id="festivalUpdate" parameterType="java.lang.Integer" resultType="lala.com.a.model.FestivalDto">
+	SELECT * FROM FESTIVAL
+	WHERE SEQ=#{seq}
+</select>
+
+<update id="thumbnailUpdate" parameterType="lala.com.a.model.FestivalDto">
+	UPDATE FESTIVAL
+	SET THUMBNAIL=#{thumbnail}
+	WHERE SEQ=#{seq}
+</update>
+
+<update id="festivalUpdateAf" parameterType="lala.com.a.model.FestivalDto">
+	UPDATE FESTIVAL
+	SET TITLE=#{title},CONTENT=#{content},SDATE=#{sDate},
+		EDATE=#{eDate},PLACE=#{place},TNAME='FESTIVAL'
+		WHERE SEQ=#{seq}
+</update>
+
+<select id="endFetival" resultType="lala.com.a.model.FestivalDto">
+	SELECT * FROM FESTIVAL
+	WHERE DEL=2
+</select>
+
+<!-- score올리기 -->
+<update id="scoreUpdate" parameterType="lala.com.a.model.FestivalDto">
+	UPDATE FESTIVAL
+	SET SCORE=SCORE + #{score}
+	WHERE SEQ=#{seq}
+</update>
+
+<!-- 메인페이지에서 썸네일 뽑아감 -->
+<select id="mainThumbNail" resultType="lala.com.a.model.FestivalDto">
+	SELECT * FROM FESTIVAL
+	WHERE DEL=0
+	
+</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+

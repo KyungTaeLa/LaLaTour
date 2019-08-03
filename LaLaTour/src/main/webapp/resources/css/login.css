@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+#outer {
+	width: 100%;
+	text-align: center;
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+
+#inner {
+	display: inline-block;
+	width: 1250px;
+	text-align: left;
+	/* background-color: gray; */
+}
+.login_input {
+	border: 1px solid #e8e8e8;
+	width: 350px;
+	height: 50px;
+	margin-top: 10px;
+}
+.login_btn {
+	width: 350px;
+	height: 50px;
+	background-color: #1f5996;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+	border: none;
+	margin-top: 20px;
+}
+.login_btn:hover {
+	background-color: #1664b7;
+}
+.login_text {
+	color: #514c4c;
+	text-decoration: none;
+	cursor: pointer;
+	font-size: 15px;
+}
+.textBold {
+	font-weight: bold;
+}
+
+.div_viewId {
+	width: 350px;
+	height: 100px;
+	border: none;
+	margin-top: 20px;
+	border-radius: 10px;
+	padding: auto;
+	background-color: #f2f2f2;
+	display: table;
+}
+
+.span_viewId {
+	margin: 10px 0px 0px 20px;
+	vertical-align: middle;
+	display: table-cell;
+	text-align: center;
+}
+
+.two_btn {
+	width: 170px;
+	height: 80px;
+	background-color: #514c4c;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+	border: none;
+	margin-top: 20px;
+}
+
+.select_question {
+	width: 350px;
+	height: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

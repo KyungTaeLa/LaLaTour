@@ -1,0 +1,284 @@
+@charset "UTF-8";
+
+#outer {
+	width: 100%;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 100px;
+}
+
+#inner {
+	display: inline-block;
+	width: 1250px;
+	text-align: left;
+}
+a {
+	text-decoration: none;
+	color: #514c4c;
+}
+th {
+	background-color: #e8e8e8;
+	font-weight: bolder;
+	font-size: 17px;
+}
+#blueTable th {
+	background-color: #1f5996;
+	font-weight: bolder;
+	font-size: 17px;
+	color: white;
+}
+table .th_nobg{
+	background-color: white;
+	vertical-align: top;
+}
+
+.padding10 td, th {
+	padding: 10px;
+}
+.padding5 td, th {
+	padding: 5px;
+}
+.colline {
+	border: none;
+	border-top: 3px solid black;
+}
+.colline td, th {
+	border-bottom: 1px solid #bfc1bd !important;
+}
+
+.inputckbox {
+	width: 20px;
+	height: 20px;
+}
+.font20 {
+	font-size: 20px;
+}
+.inputMyCount {width:50px; height:34px; float:left; text-align: center; font-size: 18px; color: #514c4c;}
+
+.closeBtn {
+	width: 60px; 
+	height: 35px; 
+	background-color: #f4f4f4;
+	border: 1px solid gray;
+}
+.closeBtn:hover {
+	background-color: #e8e8e8;
+	border: 2px solid black;
+	font-weight: bold;
+}
+.productWriteLabel {
+	width: 200px;
+	height: 40px;
+	border: 1px solid #f4f4f4;
+	cursor: pointer;
+	background-color: blue;
+}
+.fileChoiceBtn {
+	width: 80px;
+	background-color: #f4faff;
+	padding: 5px 10px;
+	border: 1px solid #1c6fb2;
+	color: #1c6fb2;
+	text-align: center;
+	text-decoration: none;
+	font-size: 15px;
+	display: inline-block;
+	cursor: pointer;
+	margin-left: 10px;
+}
+.fileChoiceBtn:hover {
+	background-color: #d9ecfc;
+}
+
+
+/* cartlist.jsp 장바구니 ////////////////////////////////////////////////////// */
+.smallbtn {
+	width: 40px;
+	height: 40px;
+	background-color: white;
+	border: 1px solid gray;
+	color: #514c4c;
+	text-align: center;
+	font-size: 25px;
+	text-decoration: none;
+	display: inline-block;
+	cursor: pointer;
+}
+.cartlist_alldelBtn {
+	width: 150px;
+	background-color: #514c4c;
+	padding: 10px 10px;
+	color: white;
+	/* border: 1px solid #302f2f; */
+	border: none;
+	text-align: center;
+	text-decoration: none;
+	font-size: 15px;
+	display: inline-block;
+	cursor: pointer;
+}
+.cartlist_alldelBtn:hover {
+	background-color: black;
+}
+.cartlist_cartdelBtn {
+	width: 120px;
+	background-color: #f4f4f4;
+	padding: 10px 10px;
+	border: 1px solid black;
+	/* border: none; */
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	font-size: 15px;
+	display: inline-block;
+	cursor: pointer;
+	/* border-radius: 10px; */
+	box-shadow:1px 1px 1px;
+}
+.cartlist_cartdelBtn:hover {
+	color: #d64646;
+	font-weight: bolder;
+	background-color: #ffefef;
+	border: 2px solid #d64646;
+}
+
+
+/* orderedlist.jsp 결제하기 ////////////////////////////////////////////////////// */
+
+
+
+
+
+
+
+
+/* member.jsp 관리자 회원목록 ////////////////////////////////////////////////////// */
+.divsearch {
+	display: table; text-align: center; width: 1250px; height: 80px; 
+}
+
+.searchDiv {
+	display: table-cell;
+	text-align: center;
+	width: 1250px;
+	height: 80px;
+	background-color: #f2f2f2;
+	/* margin-top: 20px;
+	margin-bottom: 20px; */
+	vertical-align: middle;
+	margin: auto;
+}
+
+.divTop {
+	width: 1230px;
+	height: 50px;
+	display: inline-block;
+}
+
+.adminTitle {
+	font-size: 30px;
+	vertical-align: middle;
+}
+
+.blue_btn {
+	width: 200px;
+	height: 40px;
+	background-color: #1f5996;
+	color: white;
+	/* font-weight: bold; */
+	font-size: 20px;
+	border: none;
+	/* margin-top: 20px; */
+}
+.blue_btn:hover {
+	background-color: #1664b7;
+}
+
+.blue_btn2 {
+	width: 160px;
+	height: 40px;
+	background-color: #1f5996;
+	color: white;
+	/* font-weight: bold; */
+	font-size: 20px;
+	border: none;
+	/* margin-top: 20px; */
+}
+.blue_btn2:hover {
+	background-color: #1664b7;
+}
+
+.blueban_btn {
+	width: 100px;
+	height: 30px;
+	background-color: #1f5996;
+	color: white;
+	font-size: 20px;
+	border: none;
+}
+.blueban_btn:hover {
+	background-color: #1664b7;
+}
+.whitebluebtn {
+	width: 60px;
+	height: 35px;
+	background-color: white;
+	border: 1px solid gray;
+	color: #514c4c;
+	text-align: center;
+	font-size: 18px;
+	text-decoration: none;
+	display: inline-block;
+	cursor: pointer;
+}
+.whitebluebtn:hover {
+	border: 1.5px solid #1f5996;
+	color: #1f5996;
+	font-weight: bold;
+}
+
+
+
+/* selllist.jsp 전체주문내역 ////////////////////////////////////////////////////// */
+.selllist_goodsBtn {
+	width: 120px;
+	background-color: #f4f4f4;
+	padding: 10px 10px;
+	border: 1px solid black;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+	display: inline-block;
+	cursor: pointer;
+	box-shadow:1px 1px 1px;
+}
+.selllist_goodsBtn:hover {
+	color: #d64646;
+	font-weight: bolder;
+	background-color: #ffefef;
+	border: 2px solid #d64646;
+}
+.selllist_blue:hover {
+	color: #2e85cc;
+	font-weight: bolder;
+	background-color: #d0e4f4;
+	border: 2px solid #2e85cc;
+}
+.selllist_gray:hover {
+	color: gray;
+	background-color: #e8e8e8;
+	border: 2px solid gray;
+}
+
+.selllist_rednumber {
+	font-size: 25px;
+	color: #c42d2d;
+}
+
+
+
+
+
+
+
+

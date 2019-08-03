@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Member">
+
+<!-- 회원가입 -->
+<insert id="addmember" parameterType="lala.com.a.model.MemberDto">
+INSERT INTO MEMBER(
+	ID,PWD,NAME,EMAIL,PHONE,
+	ANSWER,ADDRESS,
+	QUESTION,DEL,AUTH)
+VALUES(
+	#{id},#{pwd},#{name},#{email},#{phone},
+	#{answer},#{address},
+	#{question},#{del},#{auth})
+</insert>
+
+<!-- 로그인 -->
+<select id="loginaf" parameterType="lala.com.a.model.MemberDto" resultType="lala.com.a.model.MemberDto">
+	SELECT *
+	FROM MEMBER
+	WHERE ID=#{id} AND PWD=#{pwd}
+	AND DEL = 0
+</select>
+
+<!-- id체크 -->
+<select id="idsamecheck" parameterType="String" resultType="java.lang.Integer">
+	SELECT COUNT(ID)
+	FROM MEMBER
+	WHERE ID=#{id}
+</select>
+
+<!-- 비밀번호 질문 리스트 -->
+<select id="getQuestionList" resultType="lala.com.a.model.QuestionDto">
+SELECT *
+FROM QUESTION
+</select>
+
+<!-- 아이디찾기 -->
+<select id="findId" parameterType="lala.com.a.model.MemberDto" resultType="java.lang.String">
+SELECT * FROM MEMBER
+WHERE NAME=#{name} AND EMAIL=#{email}
+</select>
+
+<!-- 비밀번호 찾기1(질문으로) -->
+<select id="findPwd1" parameterType="lala.com.a.model.MemberDto" resultType="java.lang.String">
+SELECT PWD FROM MEMBER
+WHERE QUESTION=#{question} AND ID=#{id}
+</select>
+
+<!-- 비밀번호찾기2(비번변경) -->
+<update id="findPwd2" parameterType="lala.com.a.model.MemberDto">
+UPDATE MEMBER SET PWD=#{pwd}
+WHERE ID=#{id} AND EMAIL=#{email}
+</update>
+
+<!-- 미팅 예약들 일정 가져오기 -->
+ <select id="meetingCalendar" parameterType="java.lang.String" resultType="lala.com.a.model.CalendarDto"> 
+  SELECT S.ID AS ID, M.SEQ AS SEQ, M.EDATE AS EDATE, M.TITLE AS TITLE, M.TNAME AS TNAME
+  FROM MEETING M, SUB_MEETING S
+  WHERE M.SEQ = S.PSEQ AND S.ID =#{id}
+</select>
+
+<!-- 호텔예약 가져오기 -->
+<select id="hotelCalendar" parameterType="java.lang.String" resultType="lala.com.a.model.CalendarDto">
+SELECT H.TITLE AS TITLE, H.TNAME AS TNAME, R.SDATE AS SDATE, R.EDATE AS EDATE
+FROM HOTEL H, RESERVE R
+WHERE H.SEQ=R.PSEQ AND R.ID=#{id}
+</select>
+
+<!-- 호텔 예약 리스트 카운트 -->
+<select id="getReserveCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM HOTEL H, RESERVE R
+	WHERE H.SEQ= R.PSEQ
+	AND R.ID=#{id}
+</select>
+<!-- 호텔예약 리스트로가져오기 -->
+<select id="getReserveList" parameterType="lala.com.a.hotel.pagingBean" resultType="lala.com.a.model.ReserveDto">
+	SELECT * FROM 
+		(SELECT * FROM
+			(SELECT R.SEQ , R.MERCHANT, R.ID, R.SDATE, R.EDATE, R.DEL, R.PSEQ, R.RE_PRICE, R.WDATE, H.TITLE, H.CONTENT,H.THUMBNAIL
+			FROM  HOTEL H, RESERVE R
+			WHERE H.SEQ = R.PSEQ
+			AND R.ID = #{id}
+			ORDER BY SEQ ASC)      
+		WHERE ROWNUM <![CDATA[<=]]> #{startNum}
+		ORDER BY SEQ DESC)
+	WHERE ROWNUM <![CDATA[<=]]> #{countPerPage}
+	ORDER BY SEQ DESC
+</select>
+<!-- 마이페이지 호텔예약취소 -->
+<update id="reqCancelReserve" parameterType="java.lang.Integer">
+	UPDATE RESERVE
+	SET DEL = 2
+	WHERE SEQ = #{seq}
+</update>
+ <!-- 회원정보 수정창 가기 -->
+<select id="getMyInfo" parameterType="java.lang.String" resultType="lala.com.a.model.MemberDto">
+	SELECT M.ID, M.NAME, M.EMAIL, M.PHONE,M.PWD,
+	 M.ANSWER, M.DEL, M.QUESTION, M.ADDRESS, M.AUTH, Q.TITLE
+	FROM MEMBER M , QUESTION Q
+	WHERE M.QUESTION = Q.SEQ
+	AND M.ID= #{id}
+</select>
+<!-- 회원정보 수정 -->
+<update id="setMyInfo" parameterType="lala.com.a.model.MemberDto">
+	UPDATE MEMBER
+	SET NAME = #{name} , PWD = #{pwd}, EMAIL = #{email} , PHONE = #{phone} , ANSWER = #{answer}, QUESTION = #{question}, ADDRESS = #{address}
+	WHERE ID = #{id}
+</update>
+
+
+<!-- ☆★☆★☆★☆  회 ! 원 ! 탈 ! 퇴 ! ★☆★☆★☆★ -->
+<!-- 회원탈퇴_쇼핑 -->
+
+<!-- 상품평 delete -->
+<delete id="dropMemGoods" parameterType="java.lang.String">
+	DELETE GOODS
+	WHERE GID = #{id}
+</delete>
+<!-- 장바구니 delete -->
+<delete id="dropMemCart" parameterType="java.lang.String">
+	DELETE CART
+	WHERE ID =#{id}
+</delete>
+<!-- 주문내역 delete -->
+<delete id="dropMemOrdered" parameterType="java.lang.String">
+	DELETE ORDERED
+	WHERE OID =#{id}
+</delete>
+<!-- 내모든상품평들  -->
+<select id="getDropMemGoods" parameterType="java.lang.String" resultType="lala.com.a.model.GoodsDto">
+	SELECT * FROM GOODS
+	WHERE GID = #{id}
+</select>
+<!-- 상품평 삭제전 별점초기화 -->
+<update id="setDropMemGoods" parameterType="lala.com.a.model.GoodsDto">
+	UPDATE PRODUCT
+	SET PPOINT = PPOINT - #{gpoint},
+	HCOUNT = HCOUNT - 1
+	WHERE PRODUCT_SEQ = #{gpseq}
+</update>
+<!-- 시발 날렸네
+ 관여한 상품 목록 
+<select id="getDropMemShop" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT DISTINCT GPSEQ
+	FROM GOODS
+	WHERE GID = #{id}
+</select>
+상품평에 있는 상품점수
+<select id="getDropMemPoint" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+	SELECT NVL(SUM(GPOINT),0)
+	FROM GOODS
+	WHERE GPSEQ = #{gpseq}
+</select>
+상품점수 새로  셋팅
+<update id="setDropMemPoint" parameterType="lala.com.a.model.GoodsDto">
+	UPDATE PRODUCT
+	SET PPOINT = #{gpoint}
+	WHERE SEQ = #{gpseq}
+</update>
+ -->
+
+<!-- 회원탈퇴_호텔 -->
+
+<!-- 관여한 호텔 목록 -->
+<select id="getDropMemHotel" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT DISTINCT PSEQ
+	FROM REPLY
+	WHERE ID = #{id}
+	AND TNAME = 'HOTEL'
+</select>
+
+<!-- 호텔의 댓글갯수와 평점 총점 -->
+<select id="getDropMemGrade" parameterType="java.lang.Integer" resultType="lala.com.a.util.MemberUtil">
+	SELECT  NVL(SUM(GRADE),0) AS GRADE, NVL(COUNT(*),0) AS COUNT
+	FROM REPLY
+	WHERE TNAME='HOTEL'
+	AND DEL = 0
+	AND PSEQ = #{pseq}
+</select>
+<!-- 회원탈퇴시 호텔 평점 초기화 -->
+<update id="setDropMemGrade" parameterType="lala.com.a.model.HotelDto">
+	UPDATE HOTEL
+	SET GRADE = #{grade}
+	WHERE SEQ = #{seq}
+</update>
+
+<!-- 탈퇴회원의 자식댓글들 ref 목록-->
+<select id="getDropMemRef" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT REF
+	FROM REPLY
+	WHERE TNAME='HOTEL'
+	AND ID =#{id}
+</select>
+<!-- 자기 후기  + 자식코멘트 삭제 -->
+<delete id="dropMemRereply" parameterType="lala.com.a.model.ReplyDto">
+	DELETE REPLY
+	WHERE TNAME = 'HOTEL'
+	AND REF = #{ref} 
+</delete>
+
+<!-- 호텔예약 내역 삭제 -->
+<delete id="dropMemReserve" parameterType="java.lang.String">
+	DELETE RESERVE
+	WHERE ID = #{id}
+</delete>
+
+
+<!-- 회원탈퇴_회원정보 -->
+<update id="setDropMem" parameterType="java.lang.String">
+	UPDATE MEMBER
+	SET DEL = 1,
+	NAME = SYSDATE,
+	PWD = SYSDATE,
+	EMAIL = SYSDATE,
+	PHONE = SYSDATE,
+	ANSWER = SYSDATE,
+	ADDRESS = SYSDATE
+	
+	WHERE ID = #{id}
+</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,274 @@
+@charset "UTF-8";
+.sub-container{
+	position:relative;
+	width:100%;
+	max-width:1250px;
+	margin:0 auto;
+	z-index:1;
+	padding:25px 0px 0px 25px;
+}
+.topPath{
+	font-size: 14px;	
+}
+.tb_div{
+	border:none;
+	border-top: 2px solid black;
+	padding: 0px 10px 0px 10px;
+}
+.tr_top{
+	height: 20px;
+	width:100%;
+}
+.tb_main{
+	margin:auto;
+	border : none;
+	border-collapse: collapse;
+	width:100%;
+}
+.tb_main th,td{
+	border-bottom:1px solid gray;
+	padding: 15px 0px 15px 0px;
+}
+.tb_main th{
+}
+.tb_main input{
+	border:none;
+	width: 400px;
+	height: 30px;
+	
+}
+.tb_main option, select{
+	border:none;
+	margin: 0px 10px 0px 0px;
+}
+.tb_main select{
+	height:30px;
+}
+.tb_sub{
+	width:1000px;
+	margin:auto;
+}
+.tr_last > th, .tr_last td{
+	border:none !important;
+}
+.div_btn{
+	margin:auto;
+	width:100%;
+	text-align: center;
+	margin-bottom:20px;
+}
+/* 구글맵 url */
+#url_info{
+	color:gray;
+	font-size:11px;
+	margin: 8px 0px;
+		
+}
+#move_to_map{
+	border:#337ab7;
+	background-color: #337ab7;
+	color:white;
+	padding:8px 12px;
+	font-size: 16px;
+	border-radius: .25em;
+	margin-left:15px;
+	cursor: pointer;
+}
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
+}
+.filebox label {
+    display: inline-block;
+    padding: .5em .75em;
+    color: #999;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
+}
+
+/* named upload */
+.filebox .upload-name {
+    display: inline-block;
+    padding: .5em .75em;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #f5f5f5;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: .25em;
+  -webkit-appearance: none; /* 네이티브 외형 감추기 */
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* imaged preview */
+.filebox .upload-display {
+    margin-bottom: 5px;
+}
+
+@media(min-width: 768px) {
+    .filebox .upload-display {
+        display: inline-block;
+        margin-right: 5px;
+        margin-bottom: 0;
+    }
+}
+
+.filebox .upload-thumb-wrap {
+    display: inline-block;
+    width: 54px;
+    padding: 2px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.filebox .upload-display img {
+    display: block;
+    max-width: 100%;
+    width: 100% \9;
+    height: auto;
+}
+
+.filebox.bs3-primary label {
+  color: #fff;
+  background-color: #337ab7;
+    border-color: #2e6da4;
+}
+.upload-display{
+	float:left;
+}
+.upload-name{
+	width:350px !important;
+	height:21px !important;
+	font-size:14px !important;
+}
+
+
+
+.myButton {
+	-moz-box-shadow:inset 1px -50px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 1px -50px 0px 0px #ffffff;
+	box-shadow:inset 1px -50px 0px 0px #ffffff;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+	background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+	background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+	background:-o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+	background:-ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
+	background-color:#ffffff;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:8px 24px;
+	text-decoration:none;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
+	background:-moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+	background:-webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+	background:-o-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+	background:-ms-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
+	background-color:#f6f6f6;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+a:hover{
+	text-decoration: none;
+	color:black;
+}
+a:visited {
+	text-decoration: none;
+	color:black;
+}
+a:link {
+	text-decoration: none;
+	color:black;
+}
+
+/* 수정 화면  */
+.file_list{
+	width:310px;
+	height:200px;
+	vertical-align: middle;
+}
+.chk_files{
+ 	display:none; 
+}
+.files_area{
+	padding-bottom: 12px;
+	font-size:15px;
+}
+.files_tb{
+	width:100%;
+	border-collapse: collapse;
+}
+.files_tb td{
+	padding:20px 10px;
+}
+.img_gray_scale{
+	-webkit-filter: grayscale(100%);
+	filter: gray;
+}
+/* 썸네일변경버튼 */
+.change_btn{
+	background-color: #337AB7;
+	color:#ffffff;
+	padding: 8px 12px;
+	width:74px !important;
+	height:39.6px !important;
+	border-radius: 0.25em;
+	font-size:16px;
+}
+.thumb_txt{
+    display: inline-block;
+    padding: .5em .75em;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #f5f5f5;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+	width:350px !important;
+	height:19.5px !important;
+	border: 1px solid #ebebeb !important;
+	
+}
+#content{
+	padding:10px;
+	outline: none;
+	border-radius: 5px;
+}

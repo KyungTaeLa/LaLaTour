@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.footer-outer {
+	width: 100%;
+	text-align: center;
+	background-color: black;
+}
+.footer-inner {
+	display: inline-block;
+	width: 1250px;
+	text-align: left;
+	background-color: #514c4c;
+}

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="Pds">
+
+	<insert id="pamFileUpload" parameterType="lala.com.a.model.PdsDto">
+		INSERT INTO PDS
+		(SEQ,FILENAME_BF,FILENAME_AF,PSEQ,TNAME)
+		VALUES(SEQ_PDS.NEXTVAL,#{fileName_Bf},#{fileName_Af},(SELECT MAX(SEQ) FROM FESTIVAL),'FESTIVAL')
+	</insert>
+	
+	<insert id="multiFileUpload" parameterType="lala.com.a.model.PdsDto">
+		INSERT INTO PDS
+		(SEQ,FILENAME_BF,FILENAME_AF,PSEQ,TNAME)
+		VALUES(SEQ_PDS.NEXTVAL,#{fileName_Bf},#{fileName_Af},(SELECT MAX(SEQ) FROM FESTIVAL),'FESTIVAL')
+	</insert>
+	
+	<select id="PdsDetail" parameterType="java.lang.Integer" resultType="lala.com.a.model.PdsDto">
+		SELECT * FROM PDS
+		WHERE PSEQ=#{seq} AND TNAME='FESTIVAL'
+	</select>
+	
+	<select id="pdsUpdateList" parameterType="java.lang.Integer" resultType="lala.com.a.model.PdsDto">
+		SELECT * FROM PDS
+		WHERE PSEQ=#{seq} AND TNAME='FESTIVAL'
+	</select>
+
+	<update id="pampletUpdate" parameterType="lala.com.a.model.PdsDto">
+		UPDATE PDS
+		SET FILENAME_BF=#{fileName_Bf},FILENAME_AF=#{fileName_Af}
+		WHERE SEQ=#{seq}
+	</update>
+	
+	<delete id="detailDel" parameterType="java.lang.Integer">
+		DELETE FROM PDS
+		WHERE SEQ=#{seq}
+	</delete>
+	
+	
+	<insert id="multiFileUpdate" parameterType="lala.com.a.model.PdsDto">
+		INSERT INTO PDS
+		(SEQ,FILENAME_BF,FILENAME_AF,PSEQ,TNAME)
+		VALUES(SEQ_PDS.NEXTVAL,#{fileName_Bf},#{fileName_Af},#{pseq},'FESTIVAL')
+	</insert>
+	
+	<insert id="reviewFileInsert" parameterType="lala.com.a.model.PdsDto">
+		INSERT INTO PDS
+		(SEQ,FILENAME_BF,FILENAME_AF,PSEQ,TNAME,CONTENT)
+		VALUES(SEQ_PDS.NEXTVAL,#{fileName_Bf},#{fileName_Af},(SELECT MAX(SEQ) FROM REVIEW),'REVIEW',#{content})
+	</insert>
+	
+	<select id="reviewDetail" parameterType="java.lang.Integer" resultType="lala.com.a.model.PdsDto">
+		SELECT * FROM PDS
+		WHERE PSEQ=#{pseq} AND TNAME='REVIEW'
+	</select>
+	
+	<update id="reviewUpdateAf" parameterType="lala.com.a.model.PdsDto" >
+		UPDATE PDS
+			SET CONTENT=#{content},FILENAME_AF=#{fileName_Af},FILENAME_BF=#{fileName_Bf}
+		WHERE SEQ=#{seq}
+	</update>
+	
+	<update id="reviewUpdateAfcontent" parameterType="lala.com.a.model.PdsDto" >
+		UPDATE PDS
+		SET CONTENT=#{content}
+		WHERE SEQ=#{seq}
+	</update>
+	
+	<delete id="reviewUpdateAfdelete" parameterType="java.lang.Integer">
+		DELETE FROM PDS
+		WHERE SEQ=#{seq}
+	</delete>
+	
+	<insert id="reviewUpdateAfInsert" parameterType="lala.com.a.model.PdsDto">
+		INSERT INTO PDS
+		(SEQ,FILENAME_BF,FILENAME_AF,PSEQ,TNAME,CONTENT)
+		VALUES(SEQ_PDS.NEXTVAL,#{fileName_Bf},#{fileName_Af},#{pseq},'REVIEW',#{content})
+	</insert>
+	
+	<select id="reviewListPds" resultType="lala.com.a.model.PdsDto">
+		SELECT * FROM PDS 
+		WHERE TNAME='REVIEW'
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+

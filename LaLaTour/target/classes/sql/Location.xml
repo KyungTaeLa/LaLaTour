@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="Attrac">
+
+<select id="getAttlist" parameterType="lala.com.a.location.attrac.pagingBean"
+	resultType="lala.com.a.model.LocationDto">
+	SELECT * FROM (
+	SELECT SEQ, ID, TITLE, CONTENT, PLACE, DEL, THUMBNAIL, SUBNAME
+	FROM (SELECT SEQ, ID, TITLE, CONTENT, PLACE, DEL, THUMBNAIL, SUBNAME
+		FROM LOCATION
+		WHERE 1=1 AND DEL=0
+		AND SUBNAME='attrac'
+		<if test="choice=='title'">
+			AND TITLE LIKE '%'||#{findWord}||'%'
+		</if>
+		<if test="choice=='content'">
+			AND CONTENT LIKE '%'||#{findWord}||'%'
+		</if>
+		<if test="choice=='place'">
+			AND PLACE LIKE '%'||#{findWord}||'%'
+		</if>
+	
+			ORDER BY SEQ ASC)
+		WHERE ROWNUM <![CDATA[<=]]> #{startNum}
+		ORDER BY SEQ DESC)
+	WHERE ROWNUM <![CDATA[<=]]> #{countPerPage}
+	
+	<!-- ORDER BY SEQ DESC -->
+</select>
+
+
+<select id="getAttracCount"
+	parameterType="lala.com.a.location.attrac.pagingBean"
+	resultType="java.lang.Integer">
+	
+	SELECT NVL(COUNT(*), 0) AS CNT
+	FROM LOCATION
+	WHERE 1=1 AND DEL=0
+	AND SUBNAME='attrac'
+	<if test="findWord != null and findWord != ''
+		 		and choice != null and choice != ''">		 	
+	 	<if test="choice=='title'">
+			AND TITLE LIKE '%'||#{findWord}||'%'
+		</if>
+		<if test="choice=='content'">
+			AND CONTENT LIKE '%'||#{findWord}||'%'
+		</if>
+		<if test="choice=='place'">
+			AND PLACE LIKE '%'||#{findWord}||'%'
+		</if>
+	</if> 
+</select>
+
+
+<insert id="attwrite" parameterType="lala.com.a.model.LocationDto" >
+	INSERT INTO LOCATION(SEQ, ID, TITLE, CONTENT, PLACE, DEL, THUMBNAIL, SUBNAME)
+	VALUES (SEQ_LOC.NEXTVAL, #{id}, #{title}, #{content}, #{place}, 0, #{thumbnail}, 'attrac')
+</insert>
+
+<update id="listdelete" parameterType="java.lang.Integer">
+	UPDATE LOCATION
+	SET DEL=1
+	WHERE SEQ=#{seq} AND SUBNAME='attrac'
+</update>
+
+<update id="listdelete_replydelete" parameterType="java.lang.Integer">
+	UPDATE REPLY
+	SET DEL=1
+	WHERE PSEQ=#{pseq} AND TNAME='attrac'
+</update>
+
+<delete id="listdelete_UpdeletePds" parameterType="java.lang.Integer" >
+	DELETE PDS
+	WHERE  PSEQ=#{pseq} AND TNAME='attrac'
+</delete>
+
+<select id="selectseq" parameterType="lala.com.a.model.LocationDto" resultType="java.lang.Integer">
+	SELECT MAX(SEQ)
+	FROM LOCATION
+	WHERE SUBNAME='attrac'
+</select>
+
+
+<insert id="uploadPds" parameterType="lala.com.a.model.PdsDto">
+	INSERT INTO PDS(SEQ, fileName_Bf, fileName_Af, PSEQ, TNAME)
+	VALUES(SEQ_PDS.NEXTVAL, #{fileName_Bf}, #{fileName_Af}, #{pseq}, 'attrac')
+</insert>
+
+<select id="attdetail" parameterType="lala.com.a.model.LocationDto" resultType="lala.com.a.model.LocationDto">
+	SELECT SEQ, ID, TITLE, CONTENT, PLACE, DEL, THUMBNAIL, SUBNAME
+	FROM LOCATION
+	WHERE SEQ=#{seq} AND SUBNAME='attrac'
+</select>
+
+<select id="attdetailPds" parameterType="lala.com.a.model.PdsDto" resultType="lala.com.a.model.PdsDto">
+	SELECT SEQ, FILENAME_BF, FILENAME_AF, PSEQ, TNAME
+	FROM PDS
+	WHERE PSEQ=#{pseq} AND TNAME='attrac'
+</select>
+
+<select id="attupdateBf"  parameterType="lala.com.a.model.LocationDto" resultType="lala.com.a.model.LocationDto">
+	SELECT SEQ, ID, TITLE, CONTENT, PLACE, DEL, THUMBNAIL, SUBNAME
+	FROM LOCATION
+	WHERE SEQ=#{seq} AND SUBNAME='attrac'
+</select>
+
+<select id="selectPds" parameterType="lala.com.a.model.PdsDto" resultType="lala.com.a.model.PdsDto">
+	SELECT SEQ, FILENAME_BF, FILENAME_AF, PSEQ, TNAME
+	FROM PDS
+	WHERE PSEQ=#{pseq} AND TNAME='attrac'
+</select>
+
+<update id="attupdate" parameterType="lala.com.a.model.LocationDto">
+	UPDATE LOCATION
+	SET TITLE=#{title}, CONTENT=#{content}, PLACE=#{place}, THUMBNAIL=#{thumbnail}
+	WHERE SEQ=#{seq} AND SUBNAME='attrac'
+</update>
+
+<update id="attFileupdate" parameterType="lala.com.a.model.PdsDto">
+	INSERT INTO PDS(SEQ, FILENAME_BF, FILENAME_AF, PSEQ, TNAME)
+	VALUES(SEQ_PDS.NEXTVAL, #{fileName_Bf}, #{fileName_Af}, #{pseq}, 'attrac')
+</update>
+
+<insert id="upinsertPds" parameterType="lala.com.a.model.PdsDto">
+	INSERT INTO PDS(SEQ, FILENAME_BF, FILENAME_AF, PSEQ, TNAME)
+	VALUES(SEQ_PDS.NEXTVAL, #{fileName_Bf}, #{fileName_Af}, #{pseq}, 'attrac')
+</insert>
+
+<delete id="UpdeletePds" parameterType="java.lang.Integer" >
+	DELETE PDS
+	WHERE  SEQ=#{seq} AND TNAME='attrac'
+</delete>
+
+<insert id="Replyinsert" parameterType="lala.com.a.model.ReplyDto">
+	INSERT INTO REPLY(SEQ, PSEQ, TNAME, ID, CONTENT, REF, STEP, WDATE, DEL, LOCK_)
+	VALUES(SEQ_REP.NEXTVAL, #{pseq}, 'attrac', #{id}, #{content}, 
+		(SELECT NVL(MAX(REF) + 1, 0)
+		FROM REPLY
+		WHERE PSEQ=#{pseq} AND TNAME='attrac')
+	, 0, SYSDATE, 0, 0)
+</insert>
+
+
+<select id="Replylist" parameterType="lala.com.a.location.attrac.pagingBean" resultType="lala.com.a.model.ReplyDto">
+	SELECT * FROM
+		(SELECT *
+		FROM 
+	
+			(SELECT SEQ, PSEQ, TNAME, ID, CONTENT, REF, STEP, WDATE, DEL, LOCK_
+			FROM REPLY
+			WHERE PSEQ=#{pseq} AND TNAME='attrac'
+			 ORDER BY REF DESC, STEP DESC)
+		 
+		 WHERE ROWNUM <![CDATA[<=]]> #{startNum}
+		ORDER BY REF ASC, STEP ASC)
+		
+	WHERE ROWNUM <![CDATA[<=]]> #{countPerPage}
+	ORDER BY REF ASC, STEP ASC
+</select>
+
+<select id="Replyselect" parameterType="lala.com.a.model.ReplyDto" resultType="lala.com.a.model.ReplyDto">
+	SELECT SEQ, PSEQ, TNAME, ID, CONTENT, REF, STEP, WDATE, DEL, LOCK_
+	FROM REPLY
+	WHERE SEQ=#{seq} AND TNAME='attrac'
+</select>
+
+<update id="PReplyupdate" parameterType="lala.com.a.model.ReplyDto">
+	UPDATE REPLY
+	SET CONTENT=#{content}, DEL=2
+	WHERE SEQ=#{seq} AND TNAME='attrac'
+</update>
+
+<update id="Redelete"  parameterType="lala.com.a.model.ReplyDto">
+	UPDATE REPLY
+	SET DEL=1
+	WHERE SEQ=#{seq} AND TNAME='attrac'
+</update>
+
+<select id="Subreply" parameterType="lala.com.a.model.ReplyDto" resultType="lala.com.a.model.ReplyDto">
+	SELECT SEQ, PSEQ, TNAME, ID, CONTENT, REF, STEP, WDATE, DEL, LOCK_
+	FROM REPLY
+	WHERE PSEQ=#{pseq} AND TNAME='attrac'
+	
+</select>
+
+<insert id="SubreplyAf" parameterType="lala.com.a.model.ReplyDto" >
+	INSERT INTO REPLY(SEQ, PSEQ, TNAME, ID, CONTENT, REF, STEP, WDATE, DEL, LOCK_)
+	VALUES(SEQ_REP.NEXTVAL, #{pseq}, 'attrac', #{id}, #{content}, #{ref},
+			(SELECT NVL(MAX(STEP) + 1, 0)
+			FROM REPLY
+			WHERE PSEQ=#{pseq} AND TNAME='attrac' AND REF=#{ref})
+			, SYSDATE, 0, 0)
+</insert>
+
+<update id="Subreplyup" parameterType="lala.com.a.model.ReplyDto" >
+	UPDATE REPLY
+	SET CONTENT=#{content}, 
+	DEL=2
+	WHERE SEQ=#{seq} 
+	AND TNAME='attrac'
+    AND PSEQ=#{pseq}
+</update>
+
+<update id="Subredelete" parameterType="lala.com.a.model.ReplyDto" >
+	UPDATE REPLY
+	SET DEL=1
+	WHERE SEQ=#{seq} 
+	AND TNAME='attrac'
+</update>
+
+<select id="getAttracReplyCount"
+	parameterType="lala.com.a.location.attrac.pagingBean"
+	resultType="java.lang.Integer">
+	
+	SELECT NVL(COUNT(*), 0) AS CNT
+	FROM REPLY
+	WHERE PSEQ=#{pseq}  AND TNAME='attrac'
+</select>
+
+<select id="mainThumb" resultType="lala.com.a.model.LocationDto">
+SELECT * FROM LOCATION
+WHERE SUBNAME='attrac' AND DEL=0
+ORDER BY SEQ DESC
+</select>
+
+
+</mapper>
